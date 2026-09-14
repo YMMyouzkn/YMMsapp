@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YMM S APP - متجر التطبيقات</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #7c3aed;
+  --primary-light: #a78bfa;
+  --primary-dark: #5b21b6;
+  --accent: #06b6d4;
+  --bg: #070b14;
+  --bg2: #0d1321;
+  --card: rgba(30, 41, 59, 0.7);
+  --card-solid: #1e293b;
+  --glass: rgba(255,255,255,0.04);
+  --border: rgba(148, 163, 184, 0.12);
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --success: #10b981;
+  --danger: #f43f5e;
+  --warning: #f59e0b;
+  --radius: 18px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(124,58,237,0.18), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(6,182,212,0.12), transparent),
+    radial-gradient(ellipse 50% 30% at 50% 100%, rgba(124,58,237,0.08), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font-family: 'Cairo', sans-serif; }
+img { max-width: 100%; }
+
+/* ========== HEADER ========== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(7, 11, 20, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.logo:hover { opacity: 0.9; }
+
+.logo-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 4px 20px rgba(124,58,237,0.45);
+  letter-spacing: -0.5px;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #c4b5fd, #67e8f9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.search-wrap {
+  flex: 1;
+  max-width: 380px;
+  position: relative;
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 11px 18px 11px 44px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  transition: all 0.25s;
+}
+
+.search-wrap input:focus {
+  border-color: var(--primary);
+  background: rgba(124,58,237,0.08);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+}
+
+.search-wrap svg {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ========== BUTTONS ========== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: none;
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(124,58,237,0.35);
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(124,58,237,0.5);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-outline:hover:not(:disabled) {
+  border-color: var(--primary-light);
+  background: rgba(124,58,237,0.1);
+  color: var(--primary-light);
+}
+
+.btn-success { background: var(--success); color: #fff; }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-warning { background: var(--warning); color: #111; }
+.btn-ghost { background: var(--glass); color: var(--muted); border: 1px solid var(--border); }
+.btn-sm { padding: 7px 14px; font-size: 12.5px; }
+.btn-lg { padding: 14px 28px; font-size: 15px; }
+.btn-block { width: 100%; }
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  padding: 6px 14px 6px 8px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* ========== LAYOUT ========== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.page { display: none; animation: fadeIn 0.35s ease; }
+.page.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== HERO ========== */
+.hero {
+  text-align: center;
+  padding: 56px 20px 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 50px;
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.3);
+  color: var(--primary-light);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.hero h1 {
+  font-size: 40px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  line-height: 1.25;
+  background: linear-gradient(135deg, #e9d5ff, #a5f3fc, #c4b5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 520px;
+  margin: 0 auto 28px;
+}
+
+/* ========== CATEGORIES ========== */
+.cats {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0 24px;
+  scrollbar-width: none;
+}
+.cats::-webkit-scrollbar { display: none; }
+
+.cat-btn {
+  flex-shrink: 0;
+  padding: 9px 18px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cat-btn:hover { border-color: var(--primary-light); color: var(--text); }
+.cat-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(124,58,237,0.35);
+}
+
+/* ========== APPS GRID ========== */
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.app-card {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.app-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(124,58,237,0.4);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(124,58,237,0.15);
+}
+.app-card:hover::before { opacity: 1; }
+
+.app-card-top {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.app-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  object-fit: cover;
+  background: var(--bg2);
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.app-meta h3 {
+  font-size: 15.5px;
+  font-weight: 700;
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+
+.app-meta .dev {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.app-meta .rating {
+  font-size: 12px;
+  color: #fbbf24;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.app-desc {
+  font-size: 13px;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.app-card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-platforms {
+  font-size: 11.5px;
+  color: var(--muted);
+  background: var(--glass);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+/* ========== AUTH ========== */
+.auth-wrapper {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 460px;
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 36px 32px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.auth-box h2 {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.auth-box .sub {
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+
+.form-group { margin-bottom: 16px; }
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(7,11,20,0.6);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+}
+
+.form-group textarea { min-height: 100px; resize: vertical; }
+
+.form-group input[type="file"] {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.type-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 22px;
+  background: rgba(7,11,20,0.5);
+  padding: 5px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+.type-toggle button {
+  flex: 1;
+  padding: 11px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.type-toggle button.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(124,58,237,0.35);
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.auth-switch a {
+  color: var(--primary-light);
+  font-weight: 700;
+  cursor: pointer;
+}
+.auth-switch a:hover { text-decoration: underline; }
+
+/* ========== DASHBOARD ========== */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 22px;
+  min-height: 70vh;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  padding: 18px;
+  height: fit-content;
+  position: sticky;
+  top: 80px;
+  border: 1px solid var(--border);
+}
+
+.sidebar h3 {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 0 10px;
+}
+
+.side-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-bottom: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.side-link:hover {
+  background: rgba(124,58,237,0.1);
+  color: var(--text);
+}
+
+.side-link.active {
+  background: rgba(124,58,237,0.18);
+  color: var(--primary-light);
+}
+
+.dash-content {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  padding: 28px;
+  border: 1px solid var(--border);
+  min-height: 400px;
+}
+
+.dash-content h2 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.dash-content .subtitle {
+  color: var(--muted);
+  font-size: 13.5px;
+  margin-bottom: 24px;
+}
+
+/* ========== SUBMIT FORM ========== */
+.screenshots-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.screenshot-row {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 10px;
+  align-items: center;
+  background: rgba(7,11,20,0.4);
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.screenshot-row input[type="file"] {
+  font-size: 12px;
+  padding: 8px;
+}
+
+.platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.platforms label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(7,11,20,0.5);
+  padding: 9px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+  color: var(--text);
+}
+
+.platforms label:has(input:checked) {
+  border-color: var(--primary);
+  background: rgba(124,58,237,0.15);
+}
+
+.platforms input { accent-color: var(--primary); }
+
+/* ========== APP DETAIL ========== */
+.app-detail {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.detail-main {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  padding: 28px;
+  border: 1px solid var(--border);
+}
+
+.detail-header {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  align-items: flex-start;
+}
+
+.detail-icon {
+  width: 110px;
+  height: 110px;
+  border-radius: 24px;
+  object-fit: cover;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  flex-shrink: 0;
+}
+
+.detail-info h1 {
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.detail-info .dev-name {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.detail-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.badge-pending { background: rgba(245,158,11,0.15); color: var(--warning); }
+.badge-approved { background: rgba(16,185,129,0.15); color: var(--success); }
+.badge-rejected { background: rgba(244,63,94,0.15); color: var(--danger); }
+.badge-cat { background: rgba(124,58,237,0.15); color: var(--primary-light); }
+.badge-age { background: rgba(6,182,212,0.15); color: var(--accent); }
+
+.screenshots-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px 0 16px;
+  scrollbar-width: thin;
+}
+
+.screenshots-scroll img {
+  height: 220px;
+  border-radius: 14px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  transition: transform 0.2s;
+}
+
+.screenshots-scroll img:hover { transform: scale(1.03); }
+
+.detail-side {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  padding: 24px;
+  border: 1px solid var(--border);
+  height: fit-content;
+  position: sticky;
+  top: 90px;
+}
+
+.detail-side h3 {
+  text-align: center;
+  margin-bottom: 18px;
+  font-size: 16px;
+}
+
+.dl-btn {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 14px;
+  font-size: 14.5px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.info-row:last-child { border-bottom: none; }
+.info-row span:first-child { color: var(--muted); }
+
+/* ========== TABLES ========== */
+.table-wrap { overflow-x: auto; border-radius: 12px; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th, td {
+  padding: 13px 12px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 12px;
+  background: rgba(7,11,20,0.4);
+}
+
+tr:hover td { background: rgba(124,58,237,0.05); }
+
+.actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ========== SETTINGS ========== */
+.settings-card {
+  background: rgba(7,11,20,0.45);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+
+.settings-card h3 {
+  font-size: 15px;
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+
+/* ========== TOAST ========== */
+#toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  background: var(--card-solid);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 14px;
+  z-index: 9999;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  max-width: 90vw;
+  text-align: center;
+}
+
+#toast.show { transform: translateX(-50%) translateY(0); }
+#toast.success { border-color: var(--success); }
+#toast.error { border-color: var(--danger); }
+
+/* ========== LOADER & EMPTY ========== */
+.loader {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255,255,255,0.25);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.65s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty-state {
+  text-align: center;
+  padding: 70px 20px;
+  color: var(--muted);
+}
+
+.empty-state .icon {
+  font-size: 52px;
+  margin-bottom: 14px;
+  opacity: 0.7;
+}
+
+.empty-state p { font-size: 15px; line-height: 1.6; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 900px) {
+  .dash-grid { grid-template-columns: 1fr; }
+  .sidebar { position: static; display: flex; flex-wrap: wrap; gap: 4px; }
+  .sidebar h3 { width: 100%; }
+  .side-link { flex: 1; min-width: 120px; justify-content: center; }
+  .app-detail { grid-template-columns: 1fr; }
+  .detail-side { position: static; }
+  .form-row { grid-template-columns: 1fr; }
+  .screenshot-row { grid-template-columns: 1fr; }
+  .search-wrap { order: 3; max-width: 100%; width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: 28px; }
+  .header-inner { justify-content: center; }
+  .detail-header { flex-direction: column; align-items: center; text-align: center; }
+  .detail-badges { justify-content: center; }
+  .auth-box { padding: 28px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo" id="logoBtn">
+      <div class="logo-icon">YS</div>
+      <div class="logo-text">YMM S APP</div>
+    </div>
+
+    <div class="search-wrap" id="searchWrap">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="ابحث عن تطبيق...">
+    </div>
+
+    <div class="nav-actions" id="navActions"></div>
+  </div>
+</header>
+
+<div id="toast"></div>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="hero-badge">🚀 متجر تطبيقات عربي</div>
+    <h1>اكتشف أفضل التطبيقات</h1>
+    <p>حمّل تطبيقات وألعاب موثوقة من مطورين محترفين — كل تطبيق يمر بمراجعة الإدارة قبل النشر</p>
+  </section>
+  <div class="container">
+    <div class="cats" id="homeCats">
+      <button class="cat-btn active" data-cat="all">الكل</button>
+      <button class="cat-btn" data-cat="ألعاب">ألعاب</button>
+      <button class="cat-btn" data-cat="تواصل اجتماعي">تواصل اجتماعي</button>
+      <button class="cat-btn" data-cat="أدوات">أدوات</button>
+      <button class="cat-btn" data-cat="تعليمليم">تعليم</button>
+      <button class="cat-btn" data-cat="ترفيه">ترفيه</button>
+      <button class="cat-btn" data-cat="إنتاجية">إنتاجية</button>
+      <button class="cat-btn" data-cat="أخرى">أخرى</button>
+    </div>
+    <div class="apps-grid" id="homeApps">
+      <div class="empty-state"><div class="icon">⏳</div><p>جاري تحميل التطبيقات...</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH -->
+<div id="page-auth" class="page">
+  <div class="auth-wrapper">
+    <div class="auth-box" id="authBox"></div>
+  </div>
+</div>
+
+<!-- DEVELOPER -->
+<div id="page-dev" class="page">
+  <div class="container">
+    <div class="dash-grid">
+      <aside class="sidebar">
+        <h3>لوحة المطور</h3>
+        <div class="side-link active" data-view="dev-apps">📦 تطبيقاتي</div>
+        <div class="side-link" data-view="dev-submit">➕ إضافة تطبيق</div>
+        <div class="side-link" data-view="dev-settings">⚙️ إعدادات متقدمة</div>
+      </aside>
+      <div class="dash-content" id="devContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- GUEST -->
+<div id="page-guest" class="page">
+  <div class="container">
+    <div class="dash-grid">
+      <aside class="sidebar">
+        <h3>حسابي</h3>
+        <div class="side-link active" data-view="guest-home">🏠 الرئيسية</div>
+        <div class="side-link" data-view="guest-settings">⚙️ الإعدادات</div>
+      </aside>
+      <div class="dash-content" id="guestContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="page-admin" class="page">
+  <div class="container">
+    <div class="dash-grid">
+      <aside class="sidebar">
+        <h3>لوحة الإدارة</h3>
+        <div class="side-link active" data-view="admin-pending">🕐 التطبيقات المعلقة</div>
+        <div class="side-link" data-view="admin-all">📱 كل التطبيقات</div>
+        <div class="side-link" data-view="admin-users">👥 المستخدمون</div>
+      </aside>
+      <div class="dash-content" id="adminContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- APP DETAIL -->
+<div id="page-app" class="page">
+  <div class="container" id="appDetailContainer"></div>
+</div>
+
+<!-- ========== FIREBASE + LOGIC ========== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
+import {
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  signOut, onAuthStateChanged, updateProfile
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import {
+  getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc,
+  deleteDoc, query, where, addDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import {
+  getStorage, ref, uploadBytes, getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC_tDr1oV4zHgctMSRx2KlxOHufQkPoPpY",
+  authDomain: "ymm-sapp.firebaseapp.com",
+  projectId: "ymm-sapp",
+  storageBucket: "ymm-sapp.firebasestorage.app",
+  messagingSenderId: "675754168295",
+  appId: "1:675754168295:web:4572d873b680849f217742",
+  measurementId: "G-FBHFRDGPXV"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+try { getAnalytics(firebaseApp); } catch(e) {}
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
+
+/* ===== STATE ===== */
+let currentUser = null;
+let currentUserData = null;
+let currentCategory = 'all';
+let searchQuery = '';
+let allApprovedApps = [];
+
+const ADMIN_EMAILS = ['admin@ymmsapp.com'];
+
+/* ===== HELPERS ===== */
+function toast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function placeholderIcon(size = 64) {
+  return `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}"><rect fill="%231e293b" width="${size}" height="${size}" rx="${size*0.22}"/><text x="${size/2}" y="${size*0.58}" text-anchor="middle" fill="%2364748b" font-size="${size*0.28}" font-family="sans-serif">APP</text></svg>`;
+}
+
+async function uploadFile(file, path) {
+  if (!file) return null;
+  const storageRef = ref(storage, path);
+  await uploadBytes(storageRef, file);
+  return await getDownloadURL(storageRef);
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById('page-' + id);
+  if (page) page.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // hide search on non-home
+  const sw = document.getElementById('searchWrap');
+  if (sw) sw.style.display = (id === 'home') ? '' : 'none';
+}
+
+// Expose to window for onclick handlers
+window.showPage = showPage;
+
+/* ===== NAV ===== */
+function renderNav() {
+  const nav = document.getElementById('navActions');
+  if (!currentUser) {
+    nav.innerHTML = `
+      <button class="btn btn-outline btn-sm" id="btnLogin">تسجيل الدخول</button>
+      <button class="btn btn-primary btn-sm" id="btnRegister">إنشاء حساب</button>
+    `;
+    document.getElementById('btnLogin')?.addEventListener('click', () => showAuth('login'));
+    document.getElementById('btnRegister')?.addEventListener('click', () => showAuth('register'));
+    return;
+  }
+
+  const role = currentUserData?.role || 'guest';
+  const name = currentUserData?.displayName || currentUser.email || '?';
+  const initial = name.charAt(0).toUpperCase();
+
+  let extra = '';
+  if (role === 'developer') {
+    extra += `<button class="btn btn-outline btn-sm" id="btnDevDash">لوحة المطور</button>`;
+  }
+  if (role === 'guest') {
+    extra += `<button class="btn btn-outline btn-sm" id="btnGuestDash">حسابي</button>`;
+  }
+  // لوحة الإدارة مخفية — تُفتح بالضغط على الشعار 3 مرات + كلمة المرور
+
+  nav.innerHTML = `
+    ${extra}
+    <div class="user-chip">
+      <div class="user-avatar">${escapeHtml(initial)}</div>
+      <span>${escapeHtml(name)}</span>
+    </div>
+    <button class="btn btn-ghost btn-sm" id="btnLogout">خروج</button>
+  `;
+
+  document.getElementById('btnDevDash')?.addEventListener('click', () => {
+    showPage('dev');
+    showDevView('dev-apps');
+  });
+  document.getElementById('btnGuestDash')?.addEventListener('click', () => {
+    showPage('guest');
+    showGuestView('guest-home');
+  });
+  document.getElementById('btnLogout')?.addEventListener('click', doLogout);
+}
+
+/* ===== AUTH UI ===== */
+function showAuth(mode) {
+  showPage('auth');
+  const box = document.getElementById('authBox');
+
+  if (mode === 'login') {
+    box.innerHTML = `
+      <h2>تسجيل الدخول</h2>
+      <p class="sub">مرحباً بعودتك إلى YMM S APP</p>
+      <div class="form-group"><label>البريد الإلكتروني</label><input type="email" id="loginEmail" placeholder="name@example.com"></div>
+      <div class="form-group"><label>كلمة المرور</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+      <button class="btn btn-primary btn-block btn-lg" id="doLoginBtn">دخول</button>
+      <div class="auth-switch">ليس لديك حساب؟ <a id="goRegister">إنشاء حساب</a></div>
+    `;
+    document.getElementById('doLoginBtn').addEventListener('click', doLogin);
+    document.getElementById('goRegister').addEventListener('click', () => showAuth('register'));
+    document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  } else {
+    box.innerHTML = `
+      <h2>إنشاء حساب</h2>
+      <p class="sub">اختر نوع الحساب للبدء</p>
+      <div class="type-toggle">
+        <button class="active" id="typeDev">حساب مطور</button>
+        <button id="typeGuest">حساب ضيف</button>
+      </div>
+      <div id="regFields"></div>
+      <button class="btn btn-primary btn-block btn-lg" id="regBtn">إنشاء الحساب</button>
+      <div class="auth-switch">لديك حساب؟ <a id="goLogin">تسجيل الدخول</a></div>
+    `;
+    window.regType = 'developer';
+    document.getElementById('typeDev').addEventListener('click', () => setRegType('developer'));
+    document.getElementById('typeGuest').addEventListener('click', () => setRegType('guest'));
+    document.getElementById('regBtn').addEventListener('click', doRegister);
+    document.getElementById('goLogin').addEventListener('click', () => showAuth('login'));
+    renderRegFields();
+  }
+}
+window.showAuth = showAuth;
+
+function setRegType(t) {
+  window.regType = t;
+  document.getElementById('typeDev').classList.toggle('active', t === 'developer');
+  document.getElementById('typeGuest').classList.toggle('active', t === 'guest');
+  renderRegFields();
+}
+
+function renderRegFields() {
+  const el = document.getElementById('regFields');
+  if (window.regType === 'developer') {
+    el.innerHTML = `
+      <div class="form-group"><label>اسم الشركة *</label><input type="text" id="regCompany" placeholder="اسم شركتك"></div>
+      <div class="form-row">
+        <div class="form-group"><label>عدد الأفراد *</label><input type="number" id="regEmployees" min="1" value="1"></div>
+        <div class="form-group"><label>الموقع الرسمي</label><input type="url" id="regWebsite" placeholder="https://"></div>
+      </div>
+      <div class="form-group"><label>طريقة التواصل</label><input type="text" id="regContact" placeholder="هاتف / واتساب / إيميل"></div>
+      <div class="form-group"><label>أيقونة الشركة</label><input type="file" id="regCompanyIcon" accept="image/*"></div>
+      <div class="form-group"><label>وصف الشركة</label><textarea id="regCompanyDesc" placeholder="نبذة مختصرة عن الشركة..."></textarea></div>
+      <div class="form-group"><label>البريد الإلكتروني *</label><input type="email" id="regEmail" placeholder="name@example.com"></div>
+      <div class="form-group"><label>كلمة المرور *</label><input type="password" id="regPass" placeholder="6 أحرف على الأقل" minlength="6"></div>
+    `;
+  } else {
+    el.innerHTML = `
+      <div class="form-row">
+        <div class="form-group"><label>الاسم *</label><input type="text" id="regFirst" placeholder="الاسم"></div>
+        <div class="form-group"><label>اسم العائلة *</label><input type="text" id="regLast" placeholder="العائلة"></div>
+      </div>
+      <div class="form-group"><label>العمر *</label><input type="number" id="regAge" min="1" max="120" placeholder="العمر"></div>
+      <div class="form-group"><label>البريد الإلكتروني *</label><input type="email" id="regEmail" placeholder="name@example.com"></div>
+      <div class="form-group"><label>كلمة المرور *</label><input type="password" id="regPass" placeholder="6 أحرف على الأقل" minlength="6"></div>
+    `;
+  }
+}
+
+async function doRegister() {
+  const email = document.getElementById('regEmail')?.value.trim();
+  const pass = document.getElementById('regPass')?.value;
+  if (!email || !pass) { toast('أدخل البريد وكلمة المرور', 'error'); return; }
+  if (pass.length < 6) { toast('كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error'); return; }
+
+  const btn = document.getElementById('regBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loader"></span> جاري الإنشاء...';
+
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    const uid = cred.user.uid;
+    let profile = {
+      email,
+      role: window.regType,
+      createdAt: serverTimestamp()
+    };
+
+    if (window.regType === 'developer') {
+      const company = document.getElementById('regCompany')?.value.trim();
+      if (!company) throw new Error('اسم الشركة مطلوب');
+      profile.displayName = company;
+      profile.companyName = company;
+      profile.employees = Number(document.getElementById('regEmployees')?.value) || 1;
+      profile.website = document.getElementById('regWebsite')?.value.trim() || '';
+      profile.contact = document.getElementById('regContact')?.value.trim() || '';
+      profile.companyDesc = document.getElementById('regCompanyDesc')?.value.trim() || '';
+
+      const iconFile = document.getElementById('regCompanyIcon')?.files[0];
+      if (iconFile) {
+        profile.companyIcon = await uploadFile(iconFile, `companies/${uid}/icon_${Date.now()}`);
+      }
+    } else {
+      const first = document.getElementById('regFirst')?.value.trim();
+      const last = document.getElementById('regLast')?.value.trim();
+      if (!first || !last) throw new Error('الاسم واسم العائلة مطلوبان');
+      profile.displayName = first + ' ' + last;
+      profile.firstName = first;
+      profile.lastName = last;
+      profile.age = Number(document.getElementById('regAge')?.value) || 0;
+    }
+
+    if (ADMIN_EMAILS.includes(email.toLowerCase())) {
+      profile.role = 'admin';
+    }
+
+    await setDoc(doc(db, 'users', uid), profile);
+    await updateProfile(cred.user, { displayName: profile.displayName });
+    toast('تم إنشاء الحساب بنجاح! 🎉');
+  } catch (e) {
+    console.error(e);
+    let msg = 'حدث خطأ أثناء التسجيل';
+    if (e.code === 'auth/email-already-in-use') msg = 'هذا البريد مستخدم مسبقاً';
+    else if (e.code === 'auth/invalid-email') msg = 'البريد الإلكتروني غير صالح';
+    else if (e.code === 'auth/weak-password') msg = 'كلمة المرور ضعيفة';
+    else if (e.message) msg = e.message;
+    toast(msg, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'إنشاء الحساب';
+  }
+}
+
+async function doLogin() {
+  const email = document.getElementById('loginEmail')?.value.trim();
+  const pass = document.getElementById('loginPass')?.value;
+  if (!email || !pass) { toast('أدخل البريد وكلمة المرور', 'error'); return; }
+
+  const btn = document.getElementById('doLoginBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loader"></span>';
+
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+    toast('تم تسجيل الدخول بنجاح');
+  } catch (e) {
+    console.error(e);
+    let msg = 'بيانات الدخول غير صحيحة';
+    if (e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
+      msg = 'البريد أو كلمة المرور غير صحيحة';
+    }
+    toast(msg, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'دخول';
+  }
+}
+
+async function doLogout() {
+  await signOut(auth);
+  showPage('home');
+  loadHomeApps();
+  toast('تم تسجيل الخروج');
+}
+
+/* ===== AUTH STATE ===== */
+onAuthStateChanged(auth, async (user) => {
+  currentUser = user;
+  if (user) {
+    try {
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      currentUserData = snap.exists()
+        ? snap.data()
+        : { email: user.email, role: 'guest', displayName: user.displayName || user.email };
+
+      if (ADMIN_EMAILS.includes((user.email || '').toLowerCase())) {
+        currentUserData.role = 'admin';
+      }
+    } catch (e) {
+      currentUserData = { email: user.email, role: 'guest', displayName: user.displayName || user.email };
+    }
+
+    // Redirect after login based on role (الإدارة لا تُفتح تلقائياً)
+    const role = currentUserData.role;
+    if (document.getElementById('page-auth').classList.contains('active')) {
+      if (role === 'developer') { showPage('dev'); showDevView('dev-apps'); }
+      else { showPage('home'); }
+    }
+  } else {
+    currentUserData = null;
+  }
+  renderNav();
+});
+
+/* ===== HOME APPS ===== */
+async function loadHomeApps() {
+  const grid = document.getElementById('homeApps');
+  grid.innerHTML = '<div class="empty-state"><div class="icon">⏳</div><p>جاري التحميل...</p></div>';
+
+  try {
+    const q = query(collection(db, 'apps'), where('status', '==', 'approved'));
+    const snap = await getDocs(q);
+    allApprovedApps = [];
+    snap.forEach(d => allApprovedApps.push({ id: d.id, ...d.data() }));
+    renderFilteredApps();
+  } catch (e) {
+    console.error(e);
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">⚠️</div>
+        <p>تعذر تحميل التطبيقات.<br>تأكد من تفعيل Firestore وربطه بالمشروع.</p>
+      </div>`;
+  }
+}
+
+function renderFilteredApps() {
+  const grid = document.getElementById('homeApps');
+  let apps = [...allApprovedApps];
+
+  if (currentCategory !== 'all') {
+    apps = apps.filter(a => a.category === currentCategory);
+  }
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    apps = apps.filter(a =>
+      (a.name || '').toLowerCase().includes(q) ||
+      (a.description || '').toLowerCase().includes(q) ||
+      (a.developerName || '').toLowerCase().includes(q)
+    );
+  }
+
+  if (!apps.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">📱</div>
+        <p>${searchQuery || currentCategory !== 'all'
+          ? 'لا توجد نتائج مطابقة'
+          : 'لا توجد تطبيقات منشورة بعد.<br>كن أول من يضيف تطبيقاً!'}</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = apps.map(a => `
+    <div class="app-card" data-id="${a.id}">
+      <div class="app-card-top">
+        <img class="app-icon" src="${escapeHtml(a.iconUrl || '')}" alt=""
+          onerror="this.src='${placeholderIcon(64)}'">
+        <div class="app-meta">
+          <h3>${escapeHtml(a.name)}</h3>
+          <div class="dev">${escapeHtml(a.developerName || 'مطور')}</div>
+          <div class="rating">★ ${(a.rating || 5).toFixed(1)} · ${escapeHtml(a.category || '')}</div>
+        </div>
+      </div>
+      <p class="app-desc">${escapeHtml(a.description)}</p>
+      <div class="app-card-foot">
+        <span class="app-platforms">${escapeHtml((a.platforms || []).join(' · ') || 'Android')}</span>
+        <button class="btn btn-primary btn-sm app-dl-btn">تحميل</button>
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.app-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.app-dl-btn') || e.target.classList.contains('app-dl-btn')) {
+        e.stopPropagation();
+      }
+      openApp(card.dataset.id);
+    });
+  });
+}
+
+/* Categories */
+document.getElementById('homeCats').addEventListener('click', e => {
+  const btn = e.target.closest('.cat-btn');
+  if (!btn) return;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCategory = btn.dataset.cat;
+  renderFilteredApps();
+});
+
+/* Search */
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.trim();
+  renderFilteredApps();
+});
+
+/* Logo — ضغطة عادية = الرئيسية | 3 ضغطات = طلب كلمة مرور الإدارة */
+let logoClickCount = 0;
+let logoClickTimer = null;
+const ADMIN_SECRET = 'youzai';
+
+document.getElementById('logoBtn').addEventListener('click', () => {
+  logoClickCount++;
+
+  if (logoClickTimer) clearTimeout(logoClickTimer);
+
+  if (logoClickCount >= 3) {
+    logoClickCount = 0;
+    const pass = prompt('أدخل كلمة مرور لوحة الإدارة:');
+    if (pass === ADMIN_SECRET) {
+      showPage('admin');
+      showAdminView('admin-pending');
+      toast('مرحباً بك في لوحة الإدارة');
+    } else if (pass !== null) {
+      toast('كلمة المرور غير صحيحة', 'error');
+    }
+    return;
+  }
+
+  // بعد ثانية بدون ضغط إضافي → اعتبرها ضغطة عادية وارجع للرئيسية
+  logoClickTimer = setTimeout(() => {
+    if (logoClickCount > 0 && logoClickCount < 3) {
+      logoClickCount = 0;
+      showPage('home');
+      loadHomeApps();
+    }
+  }, 600);
+});
+
+/* ===== APP DETAIL ===== */
+async function openApp(appId) {
+  showPage('app');
+  const box = document.getElementById('appDetailContainer');
+  box.innerHTML = '<div class="empty-state"><div class="icon">⏳</div><p>جاري التحميل...</p></div>';
+
+  try {
+    const snap = await getDoc(doc(db, 'apps', appId));
+    if (!snap.exists()) {
+      box.innerHTML = '<div class="empty-state"><div class="icon">😕</div><p>التطبيق غير موجود</p></div>';
+      return;
+    }
+    const a = { id: snap.id, ...snap.data() };
+    const shots = (a.screenshots || []).filter(Boolean);
+
+    box.innerHTML = `
+      <div class="app-detail">
+        <div class="detail-main">
+          <div class="detail-header">
+            <img class="detail-icon" src="${escapeHtml(a.iconUrl || '')}"
+              onerror="this.src='${placeholderIcon(110)}'">
+            <div class="detail-info">
+              <h1>${escapeHtml(a.name)}</h1>
+              <div class="dev-name">${escapeHtml(a.developerName || 'مطور')}</div>
+              <div class="detail-badges">
+                <span class="badge badge-cat">${escapeHtml(a.category || '')}</span>
+                <span class="badge badge-age">العمر: ${escapeHtml(a.ageRating || '+3')}</span>
+                ${a.status === 'approved' ? '<span class="badge badge-approved">معتمد</span>' : ''}
+              </div>
+            </div>
+          </div>
+
+          <h3 style="margin-bottom:10px;font-size:16px">الوصف</h3>
+          <p style="color:var(--muted);white-space:pre-wrap;margin-bottom:24px;line-height:1.7">${escapeHtml(a.description)}</p>
+
+          ${shots.length ? `
+            <h3 style="margin-bottom:12px;font-size:16px">لقطات من التطبيق</h3>
+            <div class="screenshots-scroll">
+              ${shots.map(s => `<img src="${escapeHtml(s)}" alt="لقطة" loading="lazy">`).join('')}
+            </div>
+          ` : ''}
+        </div>
+
+        <div class="detail-side">
+          <h3>تحميل التطبيق</h3>
+          ${a.apkUrl
+            ? `<a href="${escapeHtml(a.apkUrl)}" target="_blank" rel="noopener" class="btn btn-primary dl-btn">📥 تحميل APK (Android)</a>`
+            : ''}
+          ${a.windowsUrl
+            ? `<a href="${escapeHtml(a.windowsUrl)}" target="_blank" rel="noopener" class="btn btn-outline dl-btn">💻 تحميل نسخة ويندوز</a>`
+            : ''}
+          ${!a.apkUrl && !a.windowsUrl
+            ? '<p style="text-align:center;color:var(--muted);font-size:13px;padding:12px 0">لا توجد ملفات تحميل متاحة حالياً</p>'
+            : ''}
+
+          <div style="margin-top:20px">
+            <div class="info-row"><span>المنصات</span><span>${escapeHtml((a.platforms || []).join('، ') || '-')}</span></div>
+            <div class="info-row"><span>الفئة</span><span>${escapeHtml(a.category || '-')}</span></div>
+            <div class="info-row"><span>العمر المناسب</span><span>${escapeHtml(a.ageRating || '-')}</span></div>
+            <div class="info-row"><span>المطور</span><span>${escapeHtml(a.developerName || '-')}</span></div>
+          </div>
+
+          <button class="btn btn-ghost btn-block" style="margin-top:18px" id="backToStore">← العودة للمتجر</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('backToStore').addEventListener('click', () => {
+      showPage('home');
+      loadHomeApps();
+    });
+  } catch (e) {
+    console.error(e);
+    box.innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>حدث خطأ أثناء التحميل</p></div>';
+  }
+}
+window.openApp = openApp;
+
+/* ===== DEVELOPER ===== */
+function showDevView(view) {
+  document.querySelectorAll('#page-dev .side-link').forEach(l => {
+    l.classList.toggle('active', l.dataset.view === view);
+  });
+  const content = document.getElementById('devContent');
+  if (view === 'dev-apps') renderDevApps(content);
+  else if (view === 'dev-submit') renderSubmitForm(content);
+  else if (view === 'dev-settings') renderDevSettings(content);
+}
+window.showDevView = showDevView;
+
+// Sidebar clicks for developer
+document.querySelectorAll('#page-dev .side-link').forEach(link => {
+  link.addEventListener('click', () => showDevView(link.dataset.view));
+});
+
+async function renderDevApps(el) {
+  if (!currentUser) { el.innerHTML = '<p>يجب تسجيل الدخول</p>'; return; }
+  el.innerHTML = '<h2>تطبيقاتي</h2><div class="empty-state"><div class="icon">⏳</div></div>';
+
+  try {
+    const q = query(collection(db, 'apps'), where('developerId', '==', currentUser.uid));
+    const snap = await getDocs(q);
+    const apps = [];
+    snap.forEach(d => apps.push({ id: d.id, ...d.data() }));
+
+    if (!apps.length) {
+      el.innerHTML = `
+        <h2>تطبيقاتي</h2>
+        <div class="empty-state">
+          <div class="icon">📦</div>
+          <p>لم تضف أي تطبيق بعد</p>
+          <button class="btn btn-primary" style="margin-top:16px" id="goSubmit">إضافة تطبيق جديد</button>
+        </div>`;
+      document.getElementById('goSubmit')?.addEventListener('click', () => showDevView('dev-submit'));
+      return;
+    }
+
+    el.innerHTML = `
+      <h2>تطبيقاتي</h2>
+      <p class="subtitle">${apps.length} تطبيق</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>الاسم</th><th>الفئة</th><th>الحالة</th><th>إنذارات</th><th></th></tr>
+          </thead>
+          <tbody>
+            ${apps.map(a => `
+              <tr>
+                <td><strong>${escapeHtml(a.name)}</strong></td>
+                <td>${escapeHtml(a.category || '-')}</td>
+                <td><span class="badge badge-${a.status || 'pending'}">${
+                  a.status === 'approved' ? 'معتمد' :
+                  a.status === 'rejected' ? 'مرفوض' : 'قيد المراجعة'
+                }</span></td>
+                <td>${(a.warnings || []).length}</td>
+                <td class="actions">
+                  <button class="btn btn-sm btn-outline view-app" data-id="${a.id}">عرض</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>`;
+
+    el.querySelectorAll('.view-app').forEach(btn => {
+      btn.addEventListener('click', () => openApp(btn.dataset.id));
+    });
+  } catch (e) {
+    console.error(e);
+    el.innerHTML = '<h2>تطبيقاتي</h2><p style="color:var(--danger)">حدث خطأ في التحميل</p>';
+  }
+}
+
+function renderSubmitForm(el) {
+  const devName = currentUserData?.displayName || currentUserData?.companyName || '';
+  el.innerHTML = `
+    <h2>إضافة تطبيق جديد</h2>
+    <p class="subtitle">سيتم نشر التطبيق بعد موافقة الإدارة فقط</p>
+
+    <div class="form-group"><label>اسم التطبيق *</label><input type="text" id="appName" placeholder="اسم التطبيق"></div>
+    <div class="form-group"><label>وصف التطبيق *</label><textarea id="appDesc" placeholder="اكتب وصفاً واضحاً للتطبيق..."></textarea></div>
+    <div class="form-group"><label>أيقونة التطبيق *</label><input type="file" id="appIcon" accept="image/*"></div>
+
+    <div class="form-group">
+      <label>عشر صور من داخل التطبيق (ملف أو رابط)</label>
+      <div class="screenshots-grid">
+        ${Array.from({length: 10}, (_, i) => `
+          <div class="screenshot-row">
+            <input type="file" accept="image/*" id="shotFile${i}" title="اختر ملف صورة">
+            <input type="url" id="shotUrl${i}" placeholder="أو الصق رابط الصورة مباشرة">
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>فئة التطبيق *</label>
+        <select id="appCategory">
+          <option>ألعاب</option>
+          <option>تواصل اجتماعي</option>
+          <option>أدوات</option>
+          <option>تعليمليم</option>
+          <option>ترفيه</option>
+          <option>إنتاجية</option>
+          <option>أخرى</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>العمر المناسب *</label>
+        <select id="appAge">
+          <option>+3</option>
+          <option>+7</option>
+          <option>+12</option>
+          <option>+16</option>
+          <option>+18</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group"><label>ملف APK (Android)</label><input type="file" id="appApk" accept=".apk,application/vnd.android.package-archive"></div>
+    <div class="form-group"><label>ملف تطبيق ويندوز</label><input type="file" id="appWindows" accept=".exe,.msi,.zip,.rar"></div>
+
+    <div class="form-group">
+      <label>على أي منصة يعمل؟ *</label>
+      <div class="platforms">
+        <label><input type="checkbox" value="Android" checked> Android</label>
+        <label><input type="checkbox" value="Windows"> Windows</label>
+        <label><input type="checkbox" value="iOS"> iOS</label>
+        <label><input type="checkbox" value="Web"> Web</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>اسم المطور / الحساب</label>
+      <input type="text" id="appDevName" value="${escapeHtml(devName)}" placeholder="اسم المطور">
+    </div>
+
+    <button class="btn btn-primary btn-block btn-lg" id="submitAppBtn">إرسال للمراجعة</button>
+  `;
+
+  document.getElementById('submitAppBtn').addEventListener('click', submitApp);
+}
+
+async function submitApp() {
+  if (!currentUser) { toast('يجب تسجيل الدخول كمطور', 'error'); return; }
+
+  const name = document.getElementById('appName')?.value.trim();
+  const desc = document.getElementById('appDesc')?.value.trim();
+  const iconFile = document.getElementById('appIcon')?.files[0];
+
+  if (!name || !desc) { toast('الاسم والوصف مطلوبان', 'error'); return; }
+  if (!iconFile) { toast('أيقونة التطبيق مطلوبة', 'error'); return; }
+
+  const btn = document.getElementById('submitAppBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loader"></span> جاري الرفع... قد يستغرق وقتاً';
+
+  try {
+    const uid = currentUser.uid;
+    const ts = Date.now();
+
+    const iconUrl = await uploadFile(iconFile, `apps/${uid}/${ts}_icon`);
+
+    const screenshots = [];
+    for (let i = 0; i < 10; i++) {
+      const f = document.getElementById('shotFile' + i)?.files[0];
+      const urlInput = document.getElementById('shotUrl' + i)?.value.trim();
+      if (f) {
+        screenshots.push(await uploadFile(f, `apps/${uid}/${ts}_shot${i}`));
+      } else if (urlInput) {
+        screenshots.push(urlInput);
+      }
+    }
+
+    const apkFile = document.getElementById('appApk')?.files[0];
+    const winFile = document.getElementById('appWindows')?.files[0];
+    let apkUrl = null, windowsUrl = null;
+    if (apkFile) apkUrl = await uploadFile(apkFile, `apps/${uid}/${ts}_app.apk`);
+    if (winFile) windowsUrl = await uploadFile(winFile, `apps/${uid}/${ts}_win_${winFile.name}`);
+
+    const platforms = [...document.querySelectorAll('.platforms input:checked')].map(c => c.value);
+    if (!platforms.length) platforms.push('Android');
+
+    const devName = document.getElementById('appDevName')?.value.trim()
+      || currentUserData?.displayName
+      || 'مطور';
+
+    await addDoc(collection(db, 'apps'), {
+      name,
+      description: desc,
+      iconUrl,
+      screenshots,
+      category: document.getElementById('appCategory')?.value || 'أخرى',
+      ageRating: document.getElementById('appAge')?.value || '+3',
+      apkUrl,
+      windowsUrl,
+      platforms,
+      developerId: uid,
+      developerName: devName,
+      status: 'pending',
+      warnings: [],
+      rating: 5.0,
+      createdAt: serverTimestamp()
+    });
+
+    toast('تم إرسال التطبيق للمراجعة بنجاح! ✅');
+    showDevView('dev-apps');
+  } catch (e) {
+    console.error(e);
+    toast(e.message || 'فشل رفع التطبيق. تأكد من تفعيل Storage', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'إرسال للمراجعة';
+  }
+}
+
+function renderDevSettings(el) {
+  const d = currentUserData || {};
+  el.innerHTML = `
+    <h2>إعدادات متقدمة</h2>
+    <p class="subtitle">إدارة بيانات شركتك وحسابك</p>
+
+    <div class="settings-card">
+      <h3>معلومات الشركة</h3>
+      <div class="form-group"><label>اسم الشركة</label><input type="text" id="setCompany" value="${escapeHtml(d.companyName || '')}"></div>
+      <div class="form-group"><label>عدد الأفراد</label><input type="number" id="setEmployees" value="${d.employees || 1}" min="1"></div>
+      <div class="form-group"><label>الموقع الرسمي</label><input type="url" id="setWebsite" value="${escapeHtml(d.website || '')}"></div>
+      <div class="form-group"><label>طريقة التواصل</label><input type="text" id="setContact" value="${escapeHtml(d.contact || '')}"></div>
+      <div class="form-group"><label>وصف الشركة</label><textarea id="setDesc">${escapeHtml(d.companyDesc || '')}</textarea></div>
+      <div class="form-group"><label>تغيير أيقونة الشركة</label><input type="file" id="setIcon" accept="image/*"></div>
+      <button class="btn btn-primary" id="saveDevBtn">حفظ التغييرات</button>
+    </div>
+
+    <div class="settings-card">
+      <h3>الحساب</h3>
+      <p style="font-size:13px;color:var(--muted)">البريد: ${escapeHtml(d.email || currentUser?.email || '')}</p>
+    </div>
+  `;
+  document.getElementById('saveDevBtn').addEventListener('click', saveDevSettings);
+}
+
+async function saveDevSettings() {
+  try {
+    const updates = {
+      companyName: document.getElementById('setCompany')?.value.trim() || '',
+      employees: Number(document.getElementById('setEmployees')?.value) || 1,
+      website: document.getElementById('setWebsite')?.value.trim() || '',
+      contact: document.getElementById('setContact')?.value.trim() || '',
+      companyDesc: document.getElementById('setDesc')?.value.trim() || '',
+      displayName: document.getElementById('setCompany')?.value.trim() || currentUserData?.displayName
+    };
+    const iconFile = document.getElementById('setIcon')?.files[0];
+    if (iconFile) {
+      updates.companyIcon = await uploadFile(iconFile, `companies/${currentUser.uid}/icon_${Date.now()}`);
+    }
+    await updateDoc(doc(db, 'users', currentUser.uid), updates);
+    currentUserData = { ...currentUserData, ...updates };
+    toast('تم حفظ الإعدادات');
+    renderNav();
+  } catch (e) {
+    console.error(e);
+    toast('فشل الحفظ', 'error');
+  }
+}
+
+/* ===== GUEST ===== */
+function showGuestView(view) {
+  document.querySelectorAll('#page-guest .side-link').forEach(l => {
+    l.classList.toggle('active', l.dataset.view === view);
+  });
+  const content = document.getElementById('guestContent');
+
+  if (view === 'guest-home') {
+    content.innerHTML = `
+      <h2>مرحباً ${escapeHtml(currentUserData?.displayName || '')}</h2>
+      <p class="subtitle">استكشف التطبيقات من الصفحة الرئيسية وحمّل ما يناسبك</p>
+      <button class="btn btn-primary" id="browseStore">تصفح المتجر</button>
+    `;
+    document.getElementById('browseStore').addEventListener('click', () => {
+      showPage('home');
+      loadHomeApps();
+    });
+  } else if (view === 'guest-settings') {
+    const d = currentUserData || {};
+    content.innerHTML = `
+      <h2>الإعدادات</h2>
+      <p class="subtitle">تعديل معلوماتك الشخصية</p>
+      <div class="settings-card">
+        <h3>المعلومات الشخصية</h3>
+        <div class="form-row">
+          <div class="form-group"><label>الاسم</label><input type="text" id="gFirst" value="${escapeHtml(d.firstName || '')}"></div>
+          <div class="form-group"><label>اسم العائلة</label><input type="text" id="gLast" value="${escapeHtml(d.lastName || '')}"></div>
+        </div>
+        <div class="form-group"><label>العمر</label><input type="number" id="gAge" value="${d.age || ''}" min="1" max="120"></div>
+        <button class="btn btn-primary" id="saveGuestBtn">حفظ</button>
+      </div>
+      <div class="settings-card">
+        <h3>الحساب</h3>
+        <p style="font-size:13px;color:var(--muted)">البريد: ${escapeHtml(d.email || '')}</p>
+      </div>
+    `;
+    document.getElementById('saveGuestBtn').addEventListener('click', saveGuestSettings);
+  }
+}
+window.showGuestView = showGuestView;
+
+document.querySelectorAll('#page-guest .side-link').forEach(link => {
+  link.addEventListener('click', () => showGuestView(link.dataset.view));
+});
+
+async function saveGuestSettings() {
+  try {
+    const first = document.getElementById('gFirst')?.value.trim() || '';
+    const last = document.getElementById('gLast')?.value.trim() || '';
+    const updates = {
+      firstName: first,
+      lastName: last,
+      age: Number(document.getElementById('gAge')?.value) || 0,
+      displayName: (first + ' ' + last).trim() || currentUserData?.displayName
+    };
+    await updateDoc(doc(db, 'users', currentUser.uid), updates);
+    currentUserData = { ...currentUserData, ...updates };
+    toast('تم الحفظ');
+    renderNav();
+  } catch (e) {
+    toast('فشل الحفظ', 'error');
+  }
+}
+
+/* ===== ADMIN ===== */
+function showAdminView(view) {
+  document.querySelectorAll('#page-admin .side-link').forEach(l => {
+    l.classList.toggle('active', l.dataset.view === view);
+  });
+  const content = document.getElementById('adminContent');
+  if (view === 'admin-pending') renderAdminApps(content, 'pending');
+  else if (view === 'admin-all') renderAdminApps(content, 'all');
+  else if (view === 'admin-users') renderAdminUsers(content);
+}
+window.showAdminView = showAdminView;
+
+document.querySelectorAll('#page-admin .side-link').forEach(link => {
+  link.addEventListener('click', () => showAdminView(link.dataset.view));
+});
+
+async function renderAdminApps(el, filter) {
+  el.innerHTML = '<h2>إدارة التطبيقات</h2><div class="empty-state"><div class="icon">⏳</div></div>';
+
+  try {
+    let snap;
+    if (filter === 'pending') {
+      snap = await getDocs(query(collection(db, 'apps'), where('status', '==', 'pending')));
+    } else {
+      snap = await getDocs(collection(db, 'apps'));
+    }
+
+    const apps = [];
+    snap.forEach(d => apps.push({ id: d.id, ...d.data() }));
+
+    if (!apps.length) {
+      el.innerHTML = `
+        <h2>${filter === 'pending' ? 'التطبيقات المعلقة' : 'كل التطبيقات'}</h2>
+        <div class="empty-state"><div class="icon">✅</div><p>لا توجد تطبيقات ${filter === 'pending' ? 'معلقة' : ''}</p></div>`;
+      return;
+    }
+
+    el.innerHTML = `
+      <h2>${filter === 'pending' ? 'التطبيقات المعلقة' : 'كل التطبيقات'}</h2>
+      <p class="subtitle">${apps.length} تطبيق</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>الاسم</th><th>المطور</th><th>الفئة</th><th>الحالة</th><th>إنذارات</th><th>إجراءات</th></tr>
+          </thead>
+          <tbody>
+            ${apps.map(a => `
+              <tr>
+                <td><strong>${escapeHtml(a.name)}</strong></td>
+                <td>${escapeHtml(a.developerName || '-')}</td>
+                <td>${escapeHtml(a.category || '-')}</td>
+                <td><span class="badge badge-${a.status || 'pending'}">${
+                  a.status === 'approved' ? 'معتمد' :
+                  a.status === 'rejected' ? 'مرفوض' : 'معلق'
+                }</span></td>
+                <td>${(a.warnings || []).length}</td>
+                <td class="actions">
+                  ${a.status !== 'approved' ? `<button class="btn btn-sm btn-success admin-act" data-id="${a.id}" data-act="approve">موافقة</button>` : ''}
+                  ${a.status !== 'rejected' ? `<button class="btn btn-sm btn-danger admin-act" data-id="${a.id}" data-act="reject">رفض</button>` : ''}
+                  <button class="btn btn-sm btn-warning admin-act" data-id="${a.id}" data-act="warn">إنذار</button>
+                  <button class="btn btn-sm btn-outline admin-act" data-id="${a.id}" data-act="delete">حذف</button>
+                  <button class="btn btn-sm btn-ghost view-app" data-id="${a.id}">عرض</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>`;
+
+    el.querySelectorAll('.admin-act').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const act = btn.dataset.act;
+        if (act === 'warn') adminWarn(btn.dataset.id);
+        else adminAction(btn.dataset.id, act);
+      });
+    });
+    el.querySelectorAll('.view-app').forEach(btn => {
+      btn.addEventListener('click', () => openApp(btn.dataset.id));
+    });
+  } catch (e) {
+    console.error(e);
+    el.innerHTML = '<h2>إدارة التطبيقات</h2><p style="color:var(--danger)">خطأ في التحميل — تأكد من قواعد Firestore</p>';
+  }
+}
+
+async function adminAction(appId, action) {
+  const labels = { delete: 'حذف', approve: 'الموافقة على', reject: 'رفض' };
+  if (!confirm(`هل أنت متأكد من ${labels[action] || action} هذا التطبيق؟`)) return;
+
+  try {
+    if (action === 'delete') {
+      await deleteDoc(doc(db, 'apps', appId));
+      toast('تم الحذف');
+    } else if (action === 'approve') {
+      await updateDoc(doc(db, 'apps', appId), { status: 'approved' });
+      toast('تمت الموافقة ✅');
+    } else if (action === 'reject') {
+      await updateDoc(doc(db, 'apps', appId), { status: 'rejected' });
+      toast('تم الرفض');
+    }
+    const active = document.querySelector('#page-admin .side-link.active');
+    showAdminView(active?.dataset.view || 'admin-pending');
+  } catch (e) {
+    console.error(e);
+    toast('فشلت العملية', 'error');
+  }
+}
+
+async function adminWarn(appId) {
+  const reason = prompt('سبب الإنذار:');
+  if (!reason || !reason.trim()) return;
+  try {
+    const snap = await getDoc(doc(db, 'apps', appId));
+    const warnings = snap.data()?.warnings || [];
+    warnings.push({
+      reason: reason.trim(),
+      at: new Date().toISOString(),
+      by: currentUser?.email || 'admin'
+    });
+    await updateDoc(doc(db, 'apps', appId), { warnings });
+    toast('تم إضافة الإنذار');
+    const active = document.querySelector('#page-admin .side-link.active');
+    showAdminView(active?.dataset.view || 'admin-pending');
+  } catch (e) {
+    toast('فشل إضافة الإنذار', 'error');
+  }
+}
+
+async function renderAdminUsers(el) {
+  el.innerHTML = '<h2>المستخدمون</h2><div class="empty-state"><div class="icon">⏳</div></div>';
+  try {
+    const snap = await getDocs(collection(db, 'users'));
+    const users = [];
+    snap.forEach(d => users.push({ id: d.id, ...d.data() }));
+
+    el.innerHTML = `
+      <h2>المستخدمون</h2>
+      <p class="subtitle">${users.length} مستخدم</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>الاسم</th><th>البريد</th><th>النوع</th><th>تفاصيل</th></tr></thead>
+          <tbody>
+            ${users.map(u => `
+              <tr>
+                <td>${escapeHtml(u.displayName || u.companyName || '-')}</td>
+                <td>${escapeHtml(u.email || '-')}</td>
+                <td>${u.role === 'developer' ? 'مطور' : u.role === 'admin' ? 'إدارة' : 'ضيف'}</td>
+                <td style="font-size:12px;color:var(--muted)">
+                  ${u.role === 'developer' ? (u.employees || 0) + ' أفراد' : (u.age ? 'عمر ' + u.age : '-')}
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  } catch (e) {
+    el.innerHTML = '<h2>المستخدمون</h2><p style="color:var(--danger)">خطأ في التحميل</p>';
+  }
+}
+
+/* ===== INIT ===== */
+loadHomeApps();
+showPage('home');
+</script>
+</body>
+</html>
