@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>YMM S APP</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8f9fa;--surface:#fff;--text:#202124;--text2:#5f6368;--text3:#80868b;--primary:#01875f;--primary-dark:#047857;--accent:#1a73e8;--border:#e8eaed;--danger:#d93025;--warning:#f9ab00;--radius:16px;--shadow:0 1px 3px rgba(0,0,0,.08);--shadow-lg:0 4px 16px rgba(0,0,0,.12);--code-bg:#1e1e2e;--code-text:#cdd6f4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5}
+a{color:inherit;text-decoration:none}button,input,select,textarea{font-family:inherit}img{display:block;max-width:100%}
+.topbar{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:1280px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#01875f,#34a853);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px}
+.logo-text{font-size:18px;font-weight:800}
+.search-box{flex:1;max-width:480px;position:relative}
+.search-box input{width:100%;padding:11px 16px 11px 44px;border:none;border-radius:24px;background:var(--bg);color:var(--text);font-size:14px;outline:none}
+.search-box input:focus{box-shadow:0 0 0 2px var(--primary);background:var(--surface)}
+.search-box svg{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text3)}
+.nav-btns{display:flex;align-items:center;gap:8px;margin-right:auto;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border-radius:24px;border:none;font-weight:700;font-size:13px;cursor:pointer;transition:.2s;white-space:nowrap}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-primary{background:var(--primary);color:#fff}.btn-primary:hover:not(:disabled){background:var(--primary-dark)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}.btn-outline:hover:not(:disabled){background:var(--bg)}
+.btn-text{background:transparent;color:var(--primary);padding:8px 12px}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-danger{background:var(--danger);color:#fff}.btn-warning{background:var(--warning);color:#111}
+.btn-sm{padding:7px 14px;font-size:12px}.btn-lg{padding:12px 28px;font-size:15px}.btn-block{width:100%}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.container{max-width:1280px;margin:0 auto;padding:0 16px 80px}
+.page{display:none}.page.active{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.cats-wrap{overflow-x:auto;padding:16px 0 8px;scrollbar-width:none}.cats-wrap::-webkit-scrollbar{display:none}
+.cats{display:flex;gap:8px;padding:0 16px;max-width:1280px;margin:0 auto}
+.cat-chip{flex-shrink:0;padding:8px 18px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-weight:600;font-size:13px;cursor:pointer}
+.cat-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.section{margin-top:28px}.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.section-head h2{font-size:20px;font-weight:800}
+.apps-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+@media(min-width:600px){.apps-row{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}}
+.app-tile{background:var(--surface);border-radius:12px;padding:14px;cursor:pointer;transition:.2s;border:1px solid transparent}
+.app-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--border)}
+.app-tile .icon{width:72px;height:72px;border-radius:16px;object-fit:cover;background:var(--bg);margin-bottom:12px}
+.app-tile .name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-tile .dev{font-size:12px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-tile .meta{display:flex;gap:6px;margin-top:6px;font-size:12px;color:var(--text2)}
+.detail-hero{background:var(--surface);border-bottom:1px solid var(--border);padding:24px 16px}
+.detail-hero-inner{max-width:1280px;margin:0 auto;display:flex;gap:20px;align-items:flex-start}
+.detail-icon{width:96px;height:96px;border-radius:22px;object-fit:cover;flex-shrink:0;box-shadow:var(--shadow-lg)}
+.detail-info{flex:1;min-width:0}.detail-info h1{font-size:24px;font-weight:800;margin-bottom:4px}
+.detail-info .dev-link{color:var(--primary);font-weight:600;font-size:14px;margin-bottom:10px;display:block}
+.detail-stats{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--text2)}
+.detail-stats strong{color:var(--text);display:block;font-size:15px}
+.detail-actions{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+.detail-body{max-width:1280px;margin:0 auto;padding:24px 16px}
+.shots{display:flex;gap:10px;overflow-x:auto;padding:4px 0 16px}
+.shots img{height:240px;border-radius:12px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)}
+.about-box{background:var(--surface);border-radius:var(--radius);padding:20px;border:1px solid var(--border);margin-top:20px}
+.about-box h3{font-size:16px;margin-bottom:10px}.about-box p{color:var(--text2);white-space:pre-wrap;line-height:1.7}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:16px}
+.info-item{font-size:13px}.info-item span{display:block;color:var(--text3);font-size:12px}
+.auth-page{min-height:calc(100vh - 60px);display:flex;align-items:center;justify-content:center;padding:32px 16px}
+.auth-card{width:100%;max-width:420px;background:var(--surface);border-radius:20px;padding:32px 28px;box-shadow:var(--shadow-lg);border:1px solid var(--border)}
+.auth-card h2{text-align:center;font-size:24px;margin-bottom:6px}.auth-card .sub{text-align:center;color:var(--text3);font-size:14px;margin-bottom:24px}
+.form-group{margin-bottom:14px}.form-group label{display:block;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:5px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--primary)}
+.form-group textarea{min-height:90px;resize:vertical}.form-group input[type=file]{padding:10px;font-size:13px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.type-tabs{display:flex;background:var(--bg);border-radius:12px;padding:4px;margin-bottom:20px;gap:4px}
+.type-tabs button{flex:1;padding:10px;border:none;border-radius:10px;background:transparent;color:var(--text2);font-weight:700;font-size:13px;cursor:pointer}
+.type-tabs button.active{background:var(--surface);color:var(--primary);box-shadow:var(--shadow)}
+.auth-footer{text-align:center;margin-top:18px;font-size:14px;color:var(--text3)}.auth-footer a{color:var(--primary);font-weight:700;cursor:pointer}
+.dash{max-width:1100px;margin:0 auto;padding:20px 16px 60px;display:grid;grid-template-columns:200px 1fr;gap:20px}
+.dash-side{background:var(--surface);border-radius:14px;padding:12px;height:fit-content;position:sticky;top:70px;border:1px solid var(--border)}
+.dash-side h4{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:8px 12px 6px}
+.dash-link{display:block;padding:11px 14px;border-radius:10px;font-weight:600;font-size:13.5px;color:var(--text2);cursor:pointer}
+.dash-link:hover{background:var(--bg)}.dash-link.active{background:rgba(1,135,95,.1);color:var(--primary)}
+.dash-main{background:var(--surface);border-radius:14px;padding:24px;border:1px solid var(--border);min-height:400px}
+.dash-main h2{font-size:20px;margin-bottom:4px}.dash-main .sub{color:var(--text3);font-size:13px;margin-bottom:20px}
+.upload-progress{display:none;background:var(--bg);border-radius:12px;padding:16px;margin:16px 0;border:1px solid var(--border)}
+.upload-progress.show{display:block}
+.upload-progress .label{font-size:13px;font-weight:600;margin-bottom:8px;display:flex;justify-content:space-between}
+.progress-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.progress-bar .fill{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),#34a853);border-radius:4px;transition:width .3s}
+.upload-log{margin-top:10px;font-size:12px;color:var(--text3);max-height:100px;overflow-y:auto}
+.shot-row{display:grid;grid-template-columns:1fr 1.3fr;gap:8px;margin-bottom:8px;padding:8px;background:var(--bg);border-radius:10px;border:1px solid var(--border)}
+.platforms{display:flex;flex-wrap:wrap;gap:8px}
+.platforms label{display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--bg);border-radius:10px;border:1px solid var(--border);font-size:13px;cursor:pointer;color:var(--text)}
+.platforms label:has(input:checked){border-color:var(--primary);background:rgba(1,135,95,.08)}
+.platforms input{accent-color:var(--primary)}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:12px 10px;text-align:right;border-bottom:1px solid var(--border)}th{color:var(--text3);font-weight:600;font-size:12px}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700}
+.badge-pending{background:#fef7e0;color:#b06000}.badge-approved{background:#e6f4ea;color:#137333}.badge-rejected{background:#fce8e6;color:#c5221f}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.comm-layout{max-width:1200px;margin:0 auto;padding:16px;display:grid;grid-template-columns:220px 1fr;gap:16px;min-height:calc(100vh - 80px)}
+.comm-nav{background:var(--surface);border-radius:14px;padding:12px;border:1px solid var(--border);height:fit-content;position:sticky;top:70px}
+.comm-nav h4{font-size:11px;color:var(--text3);padding:8px 12px;text-transform:uppercase;letter-spacing:1px}
+.comm-link{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;font-weight:600;font-size:13px;color:var(--text2);cursor:pointer;margin-bottom:2px}
+.comm-link:hover{background:var(--bg)}.comm-link.active{background:rgba(1,135,95,.12);color:var(--primary)}
+.comm-main{background:var(--surface);border-radius:14px;border:1px solid var(--border);display:flex;flex-direction:column;min-height:520px;overflow:hidden}
+.comm-header{padding:14px 18px;border-bottom:1px solid var(--border);font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.comm-body{flex:1;overflow-y:auto;padding:16px;max-height:55vh}
+.comm-footer{padding:12px;border-top:1px solid var(--border);display:flex;gap:8px}
+.comm-footer input{flex:1;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;outline:none}
+.msg{margin-bottom:14px;max-width:85%}.msg .who{font-size:12px;font-weight:700;color:var(--primary);margin-bottom:2px}
+.msg .bubble{background:var(--bg);padding:10px 14px;border-radius:14px;font-size:14px;white-space:pre-wrap;word-break:break-word;border:1px solid var(--border)}
+.msg .time{font-size:11px;color:var(--text3);margin-top:3px}.msg.me{margin-right:auto}
+.msg.me .bubble{background:rgba(1,135,95,.1);border-color:rgba(1,135,95,.2)}
+.msg .code-block{background:var(--code-bg);color:var(--code-text);padding:12px;border-radius:10px;font-family:ui-monospace,monospace;font-size:12.5px;overflow-x:auto;margin-top:6px;white-space:pre;direction:ltr;text-align:left}
+.forum-post{background:var(--bg);border-radius:12px;padding:16px;margin-bottom:12px;border:1px solid var(--border);cursor:pointer}
+.forum-post:hover{border-color:var(--primary)}.forum-post h3{font-size:15px;margin-bottom:6px}
+.forum-post .meta{font-size:12px;color:var(--text3)}.forum-post p{font-size:13px;color:var(--text2);margin-top:8px}
+.editor-wrap{display:grid;grid-template-rows:auto 1fr auto;height:100%;min-height:480px}
+.editor-toolbar{display:flex;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;background:var(--bg)}
+.editor-area{width:100%;min-height:320px;padding:16px;border:none;background:var(--code-bg);color:var(--code-text);font-family:ui-monospace,monospace;font-size:13.5px;line-height:1.6;resize:none;outline:none;direction:ltr;text-align:left}
+.editor-status{padding:8px 14px;font-size:12px;color:var(--text3);border-top:1px solid var(--border);background:var(--bg)}
+.project-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
+.project-card h3{font-size:15px;margin-bottom:6px}.project-card .meta{font-size:12px;color:var(--text3);margin-bottom:8px}.project-card p{font-size:13px;color:var(--text2)}
+.creator-banner{background:linear-gradient(135deg,#0f766e,#1a73e8);color:#fff;border-radius:16px;padding:24px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.creator-banner h3{font-size:18px;margin-bottom:6px}.creator-banner p{font-size:13px;opacity:.9}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#323232;color:#fff;padding:12px 24px;border-radius:24px;font-weight:600;font-size:14px;z-index:9999;transition:transform .3s;max-width:90vw;text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0)}#toast.error{background:var(--danger)}#toast.success{background:#01875f}
+.loader{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin .6s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:50px 20px;color:var(--text3)}.empty .ico{font-size:48px;margin-bottom:12px;opacity:.6}
+@media(max-width:800px){.dash,.comm-layout{grid-template-columns:1fr}.dash-side,.comm-nav{position:static;display:flex;flex-wrap:wrap;gap:4px}.dash-side h4,.comm-nav h4{width:100%}.dash-link,.comm-link{flex:1;min-width:100px;justify-content:center}.detail-hero-inner{flex-direction:column;align-items:center;text-align:center}.detail-stats,.detail-actions{justify-content:center}.form-row,.shot-row{grid-template-columns:1fr}.search-box{order:3;max-width:100%;width:100%}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner">
+<div class="logo" id="logoBtn"><div class="logo-icon">YS</div><div class="logo-text">YMM S APP</div></div>
+<div class="search-box" id="searchWrap"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" id="searchInput" placeholder="البحث في التطبيقات والألعاب"></div>
+<div class="nav-btns" id="navActions"></div>
+</div></header>
+<div class="cats-wrap" id="catsWrap"><div class="cats" id="homeCats">
+<button class="cat-chip active" data-cat="all">للجميع</button>
+<button class="cat-chip" data-cat="ألعاب">ألعاب</button>
+<button class="cat-chip" data-cat="تواصل اجتماعي">تواصل</button>
+<button class="cat-chip" data-cat="أدوات">أدوات</button>
+<button class="cat-chip" data-cat="تعليمليم">تعليم</button>
+<button class="cat-chip" data-cat="ترفيه">ترفيه</button>
+<button class="cat-chip" data-cat="إنتاجية">إنتاجية</button>
+<button class="cat-chip" data-cat="أخرى">أخرى</button>
+</div></div>
+<div id="toast"></div>
+<div id="page-home" class="page active"><div class="container"><div class="section"><div class="section-head"><h2>تطبيقات مميزة</h2></div><div class="apps-row" id="homeApps"><div class="empty"><div class="ico">⏳</div><p>جاري التحميل...</p></div></div></div></div></div>
+<div id="page-auth" class="page"><div class="auth-page"><div class="auth-card" id="authBox"></div></div></div>
+<div id="page-dev" class="page"><div class="dash"><aside class="dash-side"><h4>المطور</h4><div class="dash-link active" data-view="dev-apps">تطبيقاتي</div><div class="dash-link" data-view="dev-submit">إضافة تطبيق</div><div class="dash-link" data-view="dev-settings">الإعدادات</div></aside><div class="dash-main" id="devContent"></div></div></div>
+<div id="page-guest" class="page"><div class="dash"><aside class="dash-side"><h4>حسابي</h4><div class="dash-link active" data-view="guest-home">الرئيسية</div><div class="dash-link" data-view="guest-settings">الإعدادات</div></aside><div class="dash-main" id="guestContent"></div></div></div>
+<div id="page-admin" class="page"><div class="dash"><aside class="dash-side"><h4>الإدارة</h4><div class="dash-link active" data-view="admin-pending">المعلقة</div><div class="dash-link" data-view="admin-all">الكل</div><div class="dash-link" data-view="admin-users">المستخدمون</div></aside><div class="dash-main" id="adminContent"></div></div></div>
+<div id="page-community" class="page"><div class="comm-layout">
+<aside class="comm-nav"><h4>مجتمع المطورين</h4>
+<div class="comm-link active" data-tab="chats">💬 الشاتات</div>
+<div class="comm-link" data-tab="forum">📋 المنتدى</div>
+<div class="comm-link" data-tab="editor">💻 سطح التطوير</div>
+<div class="comm-link" data-tab="projects">🤝 مشاريع مشتركة</div>
+<div class="comm-link" data-tab="creator">🚀 App Creator 24</div>
+<div style="margin-top:12px;padding:0 8px"><button class="btn btn-outline btn-sm btn-block" id="commBackHome">← المتجر</button></div>
+</aside>
+<div class="comm-main" id="commMain"></div>
+</div></div>
+<div id="page-app" class="page"><div id="appDetailContainer"></div></div>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc, deleteDoc, query, where, addDoc, serverTimestamp, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC_tDr1oV4zHgctMSRx2KlxOHufQkPoPpY",
+  authDomain: "ymm-sapp.firebaseapp.com",
+  projectId: "ymm-sapp",
+  storageBucket: "ymm-sapp.firebasestorage.app",
+  messagingSenderId: "675754168295",
+  appId: "1:675754168295:web:4572d873b680849f217742",
+  measurementId: "G-FBHFRDGPXV"
+};
+const firebaseApp = initializeApp(firebaseConfig);
+try { getAnalytics(firebaseApp); } catch(e) {}
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
+
+const SHARE_BASE = "https://YMMsapp.ymmamayouzkn.workers.dev";
+const ADMIN_EMAILS = ["admin@ymmsapp.com"];
+const ADMIN_SECRET = "youzai";
+const CHAT_ROOMS = [
+  { id: "general", name: "عام", desc: "نقاش عام" },
+  { id: "android", name: "أندرويد", desc: "Android و APK" },
+  { id: "web", name: "ويب", desc: "HTML / JS / Firebase" },
+  { id: "help", name: "مساعدة", desc: "اسأل المجتمع" },
+  { id: "ideas", name: "أفكار", desc: "أفكار ومشاريع" }
+];
+
+let currentUser = null, currentUserData = null, currentCategory = "all", searchQuery = "";
+let allApprovedApps = [], chatUnsub = null, currentChatRoom = "general", currentCommTab = "chats";
+
+function toast(msg, type="success"){const t=document.getElementById("toast");t.textContent=msg;t.className="show "+type;clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),3500)}
+function esc(s){if(!s)return"";return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function phIcon(sz=72){return `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${sz} ${sz}"><rect fill="%23e8eaed" width="${sz}" height="${sz}" rx="${sz*0.22}"/><text x="${sz/2}" y="${sz*0.58}" text-anchor="middle" fill="%239aa0a6" font-size="${sz*0.22}" font-family="sans-serif">APP</text></svg>`}
+function uploadWithProgress(file,path,onProgress){return new Promise((resolve,reject)=>{if(!file){resolve(null);return}const task=uploadBytesResumable(ref(storage,path),file);task.on("state_changed",s=>onProgress&&onProgress(Math.round(s.bytesTransferred/s.totalBytes*100),file.name),reject,async()=>{try{resolve(await getDownloadURL(task.snapshot.ref))}catch(e){reject(e)}})})}
+function shareAppUrl(appId){return `${SHARE_BASE}/?app=${encodeURIComponent(appId)}`}
+async function copyText(text){try{await navigator.clipboard.writeText(text);toast("تم نسخ الرابط")}catch{prompt("انسخ الرابط:",text)}}
+
+function showPage(id){if(chatUnsub){chatUnsub();chatUnsub=null}document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById("page-"+id)?.classList.add("active");window.scrollTo({top:0,behavior:"smooth"});const cats=document.getElementById("catsWrap"),search=document.getElementById("searchWrap");if(cats)cats.style.display=id==="home"?"":"none";if(search)search.style.display=id==="home"?"":"none"}
+window.showPage=showPage;
+function isDeveloper(){return currentUser&&(currentUserData?.role==="developer"||currentUserData?.role==="admin")}
+
+function renderNav(){
+  const nav=document.getElementById("navActions");
+  if(!currentUser){nav.innerHTML=`<button class="btn btn-text btn-sm" id="btnLogin">تسجيل الدخول</button><button class="btn btn-primary btn-sm" id="btnRegister">إنشاء حساب</button>`;document.getElementById("btnLogin")?.addEventListener("click",()=>showAuth("login"));document.getElementById("btnRegister")?.addEventListener("click",()=>showAuth("register"));return}
+  const role=currentUserData?.role||"guest",name=currentUserData?.displayName||currentUser.email||"?";
+  let extra="";
+  if(role==="developer"||role==="admin"){extra+=`<button class="btn btn-accent btn-sm" id="btnCommunity">مجتمع المطورين</button><button class="btn btn-outline btn-sm" id="btnDev">لوحة المطور</button>`}
+  if(role==="guest")extra+=`<button class="btn btn-outline btn-sm" id="btnGuest">حسابي</button>`;
+  nav.innerHTML=`${extra}<div class="avatar">${esc(name.charAt(0).toUpperCase())}</div><button class="btn btn-text btn-sm" id="btnLogout">خروج</button>`;
+  document.getElementById("btnCommunity")?.addEventListener("click",openCommunity);
+  document.getElementById("btnDev")?.addEventListener("click",()=>{showPage("dev");showDevView("dev-apps")});
+  document.getElementById("btnGuest")?.addEventListener("click",()=>{showPage("guest");showGuestView("guest-home")});
+  document.getElementById("btnLogout")?.addEventListener("click",doLogout);
+}
+function openCommunity(){if(!isDeveloper()){toast("مجتمع المطورين للمطورين فقط","error");return}showPage("community");showCommTab(currentCommTab||"chats")}
+
+function showAuth(mode){
+  showPage("auth");const box=document.getElementById("authBox");
+  if(mode==="login"){box.innerHTML=`<h2>تسجيل الدخول</h2><p class="sub">مرحباً بك</p><div class="form-group"><label>البريد</label><input type="email" id="loginEmail"></div><div class="form-group"><label>كلمة المرور</label><input type="password" id="loginPass"></div><button class="btn btn-primary btn-block btn-lg" id="doLoginBtn">دخول</button><div class="auth-footer">ليس لديك حساب؟ <a id="goReg">إنشاء حساب</a></div>`;document.getElementById("doLoginBtn").onclick=doLogin;document.getElementById("goReg").onclick=()=>showAuth("register")}
+  else{box.innerHTML=`<h2>إنشاء حساب</h2><p class="sub">اختر النوع</p><div class="type-tabs"><button class="active" id="typeDev">مطور</button><button id="typeGuest">ضيف</button></div><div id="regFields"></div><button class="btn btn-primary btn-block btn-lg" id="regBtn">إنشاء الحساب</button><div class="auth-footer">لديك حساب؟ <a id="goLogin">دخول</a></div>`;window.regType="developer";document.getElementById("typeDev").onclick=()=>setRegType("developer");document.getElementById("typeGuest").onclick=()=>setRegType("guest");document.getElementById("regBtn").onclick=doRegister;document.getElementById("goLogin").onclick=()=>showAuth("login");renderRegFields()}
+}
+window.showAuth=showAuth;
+function setRegType(t){window.regType=t;document.getElementById("typeDev").classList.toggle("active",t==="developer");document.getElementById("typeGuest").classList.toggle("active",t==="guest");renderRegFields()}
+function renderRegFields(){const el=document.getElementById("regFields");if(window.regType==="developer"){el.innerHTML=`<div class="form-group"><label>اسم الشركة *</label><input id="regCompany"></div><div class="form-row"><div class="form-group"><label>عدد الأفراد *</label><input type="number" id="regEmployees" min="1" value="1"></div><div class="form-group"><label>الموقع</label><input type="url" id="regWebsite"></div></div><div class="form-group"><label>التواصل</label><input id="regContact"></div><div class="form-group"><label>أيقونة</label><input type="file" id="regCompanyIcon" accept="image/*"></div><div class="form-group"><label>وصف</label><textarea id="regCompanyDesc"></textarea></div><div class="form-group"><label>البريد *</label><input type="email" id="regEmail"></div><div class="form-group"><label>كلمة المرور *</label><input type="password" id="regPass" minlength="6"></div>`}else{el.innerHTML=`<div class="form-row"><div class="form-group"><label>الاسم *</label><input id="regFirst"></div><div class="form-group"><label>العائلة *</label><input id="regLast"></div></div><div class="form-group"><label>العمر *</label><input type="number" id="regAge" min="1" max="120"></div><div class="form-group"><label>البريد *</label><input type="email" id="regEmail"></div><div class="form-group"><label>كلمة المرور *</label><input type="password" id="regPass" minlength="6"></div>`}}
+
+async function doRegister(){
+  const email=document.getElementById("regEmail")?.value.trim(),pass=document.getElementById("regPass")?.value;
+  if(!email||!pass||pass.length<6){toast("أدخل بريداً وكلمة مرور (6+)","error");return}
+  const btn=document.getElementById("regBtn");btn.disabled=true;btn.innerHTML='<span class="loader"></span>';
+  try{
+    const cred=await createUserWithEmailAndPassword(auth,email,pass);const uid=cred.user.uid;
+    let profile={email,role:window.regType,createdAt:serverTimestamp()};
+    if(window.regType==="developer"){const company=document.getElementById("regCompany")?.value.trim();if(!company)throw new Error("اسم الشركة مطلوب");Object.assign(profile,{displayName:company,companyName:company,employees:Number(document.getElementById("regEmployees")?.value)||1,website:document.getElementById("regWebsite")?.value.trim()||"",contact:document.getElementById("regContact")?.value.trim()||"",companyDesc:document.getElementById("regCompanyDesc")?.value.trim()||""});const icon=document.getElementById("regCompanyIcon")?.files[0];if(icon)profile.companyIcon=await uploadWithProgress(icon,`companies/${uid}/icon_${Date.now()}`)}
+    else{const first=document.getElementById("regFirst")?.value.trim(),last=document.getElementById("regLast")?.value.trim();if(!first||!last)throw new Error("الاسم والعائلة مطلوبان");Object.assign(profile,{displayName:first+" "+last,firstName:first,lastName:last,age:Number(document.getElementById("regAge")?.value)||0})}
+    if(ADMIN_EMAILS.includes(email.toLowerCase()))profile.role="admin";
+    await setDoc(doc(db,"users",uid),profile);await updateProfile(cred.user,{displayName:profile.displayName});toast("تم إنشاء الحساب");
+  }catch(e){let msg=e.message||"خطأ";if(e.code==="auth/email-already-in-use")msg="البريد مستخدم";toast(msg,"error")}
+  finally{btn.disabled=false;btn.textContent="إنشاء الحساب"}
+}
+async function doLogin(){const email=document.getElementById("loginEmail")?.value.trim(),pass=document.getElementById("loginPass")?.value;if(!email||!pass){toast("أدخل البيانات","error");return}const btn=document.getElementById("doLoginBtn");btn.disabled=true;btn.innerHTML='<span class="loader"></span>';try{await signInWithEmailAndPassword(auth,email,pass);toast("تم الدخول")}catch{toast("بيانات غير صحيحة","error")}finally{btn.disabled=false;btn.textContent="دخول"}}
+async function doLogout(){await signOut(auth);showPage("home");loadHomeApps();toast("تم الخروج")}
+
+onAuthStateChanged(auth,async user=>{
+  currentUser=user;
+  if(user){try{const snap=await getDoc(doc(db,"users",user.uid));currentUserData=snap.exists()?snap.data():{email:user.email,role:"guest",displayName:user.displayName};if(ADMIN_EMAILS.includes((user.email||"").toLowerCase()))currentUserData.role="admin"}catch{currentUserData={email:user.email,role:"guest"}}
+    if(document.getElementById("page-auth").classList.contains("active")){if(currentUserData.role==="developer"){showPage("dev");showDevView("dev-apps")}else showPage("home")}}
+  else currentUserData=null;
+  renderNav();
+});
+
+async function loadHomeApps(){const grid=document.getElementById("homeApps");grid.innerHTML='<div class="empty"><div class="ico">⏳</div></div>';try{const snap=await getDocs(query(collection(db,"apps"),where("status","==","approved")));allApprovedApps=[];snap.forEach(d=>allApprovedApps.push({id:d.id,...d.data()}));renderApps()}catch{grid.innerHTML='<div class="empty"><div class="ico">⚠️</div><p>تعذر التحميل</p></div>'}}
+function renderApps(){const grid=document.getElementById("homeApps");let apps=[...allApprovedApps];if(currentCategory!=="all")apps=apps.filter(a=>a.category===currentCategory);if(searchQuery){const q=searchQuery.toLowerCase();apps=apps.filter(a=>(a.name||"").toLowerCase().includes(q)||(a.developerName||"").toLowerCase().includes(q))}
+if(!apps.length){grid.innerHTML='<div class="empty"><div class="ico">📱</div><p>لا تطبيقات</p></div>';return}
+grid.innerHTML=apps.map(a=>`<div class="app-tile" data-id="${a.id}"><img class="icon" src="${esc(a.iconUrl||"")}" onerror="this.src='${phIcon(72)}'"><div class="name">${esc(a.name)}</div><div class="dev">${esc(a.developerName||"مطور")}</div><div class="meta"><span>★ ${(a.rating||5).toFixed(1)}</span><span>·</span><span>${esc(a.category||"")}</span></div></div>`).join("");
+grid.querySelectorAll(".app-tile").forEach(t=>t.onclick=()=>openApp(t.dataset.id))}
+document.getElementById("homeCats").onclick=e=>{const b=e.target.closest(".cat-chip");if(!b)return;document.querySelectorAll(".cat-chip").forEach(c=>c.classList.remove("active"));b.classList.add("active");currentCategory=b.dataset.cat;renderApps()};
+document.getElementById("searchInput").oninput=e=>{searchQuery=e.target.value.trim();renderApps()};
+
+let logoClicks=0,logoTimer=null;
+document.getElementById("logoBtn").onclick=()=>{logoClicks++;if(logoTimer)clearTimeout(logoTimer);if(logoClicks>=3){logoClicks=0;const p=prompt("كلمة مرور الإدارة:");if(p===ADMIN_SECRET){showPage("admin");showAdminView("admin-pending");toast("لوحة الإدارة")}else if(p!==null)toast("كلمة مرور خاطئة","error");return}logoTimer=setTimeout(()=>{if(logoClicks>0&&logoClicks<3){logoClicks=0;showPage("home");loadHomeApps()}},550)};
+
+async function openApp(id){
+  showPage("app");const box=document.getElementById("appDetailContainer");box.innerHTML='<div class="empty"><div class="ico">⏳</div></div>';
+  try{const snap=await getDoc(doc(db,"apps",id));if(!snap.exists()){box.innerHTML='<div class="empty"><p>غير موجود</p></div>';return}const a={id:snap.id,...snap.data()};const shots=(a.screenshots||[]).filter(Boolean);const link=shareAppUrl(a.id);
+  box.innerHTML=`<div class="detail-hero"><div class="detail-hero-inner"><img class="detail-icon" src="${esc(a.iconUrl||"")}" onerror="this.src='${phIcon(96)}'"><div class="detail-info"><h1>${esc(a.name)}</h1><span class="dev-link">${esc(a.developerName||"مطور")}</span><div class="detail-stats"><div><strong>★ ${(a.rating||5).toFixed(1)}</strong>التقييم</div><div><strong>${esc(a.ageRating||"+3")}</strong>العمر</div><div><strong>${esc(a.category||"-")}</strong>الفئة</div></div><div class="detail-actions">${a.apkUrl?`<a class="btn btn-primary btn-lg" href="${esc(a.apkUrl)}" target="_blank" rel="noopener">تثبيت</a>`:""}${a.windowsUrl?`<a class="btn btn-outline btn-lg" href="${esc(a.windowsUrl)}" target="_blank" rel="noopener">ويندوز</a>`:""}<button class="btn btn-outline btn-lg" id="btnShareApp">مشاركة الرابط</button></div></div></div></div><div class="detail-body">${shots.length?`<h3 style="margin-bottom:12px;font-size:16px">لقطات الشاشة</h3><div class="shots">${shots.map(s=>`<img src="${esc(s)}" loading="lazy">`).join("")}</div>`:""}<div class="about-box"><h3>نبذة</h3><p>${esc(a.description)}</p><div class="info-grid"><div class="info-item"><span>المنصات</span>${esc((a.platforms||[]).join("، ")||"-")}</div><div class="info-item"><span>المطور</span>${esc(a.developerName||"-")}</div><div class="info-item"><span>رابط المشاركة</span><span style="color:var(--primary);font-size:11px;word-break:break-all">${esc(link)}</span></div></div></div><button class="btn btn-outline" style="margin-top:20px" id="backHome">← العودة</button></div>`;
+  document.getElementById("btnShareApp").onclick=()=>copyText(link);document.getElementById("backHome").onclick=()=>{showPage("home");loadHomeApps()}}catch{box.innerHTML='<div class="empty"><p>خطأ</p></div>'}}
+window.openApp=openApp;
+(function(){const appId=new URLSearchParams(location.search).get("app");if(appId)setTimeout(()=>openApp(appId),600)})();
+
+document.querySelectorAll("#page-community .comm-link").forEach(l=>{l.onclick=()=>showCommTab(l.dataset.tab)});
+document.getElementById("commBackHome").onclick=()=>{showPage("home");loadHomeApps()};
+
+function showCommTab(tab){if(!isDeveloper()){toast("للمطورين فقط","error");showPage("home");return}currentCommTab=tab;document.querySelectorAll("#page-community .comm-link").forEach(l=>l.classList.toggle("active",l.dataset.tab===tab));if(chatUnsub){chatUnsub();chatUnsub=null}const main=document.getElementById("commMain");if(tab==="chats")renderChats(main);else if(tab==="forum")renderForum(main);else if(tab==="editor")renderEditor(main);else if(tab==="projects")renderProjects(main);else if(tab==="creator")renderCreator(main)}
+
+function renderChats(main){main.innerHTML=`<div class="comm-header"><span>الشاتات الجماعية</span><select id="roomSelect" style="padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);font-weight:600">${CHAT_ROOMS.map(r=>`<option value="${r.id}" ${r.id===currentChatRoom?"selected":""}>${r.name} — ${r.desc}</option>`).join("")}</select></div><div class="comm-body" id="chatBody"><div class="empty"><div class="ico">💬</div></div></div><div class="comm-footer"><input id="chatInput" placeholder="اكتب رسالة أو الصق كود..."><button class="btn btn-outline btn-sm" id="chatCodeBtn">كود</button><button class="btn btn-primary" id="chatSend">إرسال</button></div>`;
+document.getElementById("roomSelect").onchange=e=>{currentChatRoom=e.target.value;listenChat(currentChatRoom)};
+document.getElementById("chatSend").onclick=sendChat;document.getElementById("chatInput").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChat()}};
+document.getElementById("chatCodeBtn").onclick=()=>{const code=prompt("الصق الكود:");if(code)sendChatMessage(code,true)};listenChat(currentChatRoom)}
+
+function listenChat(roomId){if(chatUnsub)chatUnsub();const body=document.getElementById("chatBody");if(!body)return;body.innerHTML='<div class="empty"><div class="ico">⏳</div></div>';
+const q=query(collection(db,"community_chats",roomId,"messages"),orderBy("createdAt","asc"),limit(100));
+chatUnsub=onSnapshot(q,snap=>{if(snap.empty){body.innerHTML='<div class="empty"><div class="ico">💬</div><p>لا رسائل — ابدأ المحادثة</p></div>';return}let html="";snap.forEach(d=>{const m=d.data();const mine=m.uid===currentUser?.uid;html+=`<div class="msg ${mine?"me":""}"><div class="who">${esc(m.name||"مطور")}</div><div class="bubble">${m.isCode?`<div class="code-block">${esc(m.text)}</div>`:esc(m.text)}</div><div class="time">${m.createdAt?.toDate?m.createdAt.toDate().toLocaleString("ar"):""}</div></div>`});body.innerHTML=html;body.scrollTop=body.scrollHeight},err=>{body.innerHTML=`<div class="empty"><p>فعّل قواعد Firestore لـ community_chats<br><small>${esc(err.message)}</small></p></div>`})}
+
+async function sendChat(){const input=document.getElementById("chatInput");const text=input?.value.trim();if(!text)return;await sendChatMessage(text,false);input.value=""}
+async function sendChatMessage(text,isCode){if(!currentUser)return;try{await addDoc(collection(db,"community_chats",currentChatRoom,"messages"),{text,isCode:!!isCode,uid:currentUser.uid,name:currentUserData?.displayName||currentUser.email,createdAt:serverTimestamp()})}catch{toast("فشل الإرسال","error")}}
+
+function renderForum(main){main.innerHTML=`<div class="comm-header"><span>المنتدى</span><button class="btn btn-primary btn-sm" id="newPostBtn">موضوع جديد</button></div><div class="comm-body" id="forumBody"></div>`;
+document.getElementById("newPostBtn").onclick=async()=>{const title=prompt("عنوان الموضوع:");if(!title?.trim())return;const body=prompt("المحتوى:");if(!body?.trim())return;try{await addDoc(collection(db,"forum_posts"),{title:title.trim(),body:body.trim(),uid:currentUser.uid,name:currentUserData?.displayName||"مطور",createdAt:serverTimestamp()});toast("تم النشر");loadForum()}catch{toast("فشل","error")}};loadForum()}
+async function loadForum(){const body=document.getElementById("forumBody");if(!body)return;try{const snap=await getDocs(query(collection(db,"forum_posts"),orderBy("createdAt","desc"),limit(50)));if(snap.empty){body.innerHTML='<div class="empty"><div class="ico">📋</div><p>لا مواضيع</p></div>';return}let html="";snap.forEach(d=>{const p=d.data();html+=`<div class="forum-post"><h3>${esc(p.title)}</h3><div class="meta">${esc(p.name)}</div><p>${esc(p.body)}</p></div>`});body.innerHTML=html;body.querySelectorAll(".forum-post").forEach(el=>{el.onclick=()=>alert(el.querySelector("h3").textContent+"\\n\\n"+el.querySelector("p").textContent)})}catch(e){body.innerHTML=`<div class="empty"><p>${esc(e.message)}</p></div>`}}
+
+function renderEditor(main){const saved=localStorage.getItem("ymm_editor_code")||"// سطح تطوير YMM S APP\\nfunction hello(){\\n  console.log('Hello');\\n}\\nhello();\\n";
+main.innerHTML=`<div class="editor-wrap"><div class="editor-toolbar"><strong style="margin-left:auto">💻 سطح التطوير</strong><select id="edLang" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border)"><option>JavaScript</option><option>HTML</option><option>CSS</option><option>Python</option><option>Java</option><option>Kotlin</option></select><button class="btn btn-outline btn-sm" id="edSave">حفظ</button><button class="btn btn-outline btn-sm" id="edClear">مسح</button><button class="btn btn-primary btn-sm" id="edShare">مشاركة مع المجتمع</button></div><textarea class="editor-area" id="edCode" spellcheck="false"></textarea><div class="editor-status" id="edStatus">جاهز</div></div>`;
+const ta=document.getElementById("edCode");ta.value=localStorage.getItem("ymm_editor_code")||`// سطح تطوير YMM S APP
+function hello(){
+  console.log("Hello");
+}
+hello();
+`;
+document.getElementById("edSave").onclick=()=>{localStorage.setItem("ymm_editor_code",ta.value);toast("تم الحفظ")};
+document.getElementById("edClear").onclick=()=>{if(confirm("مسح؟"))ta.value=""};
+document.getElementById("edShare").onclick=async()=>{const code=ta.value.trim();if(!code){toast("فارغ","error");return};const lang=document.getElementById("edLang").value;try{await addDoc(collection(db,"community_chats","ideas","messages"),{text:`[${lang}]\\n${code}`,isCode:true,uid:currentUser.uid,name:currentUserData?.displayName||"مطور",createdAt:serverTimestamp()});toast("تمت المشاركة في غرفة الأفكار")}catch{toast("فشل","error")}}}
+
+function renderProjects(main){main.innerHTML=`<div class="comm-header"><span>مشاريع مشتركة</span><button class="btn btn-primary btn-sm" id="newProjBtn">عرض مشروع</button></div><div class="comm-body" id="projBody"></div>`;
+document.getElementById("newProjBtn").onclick=async()=>{const title=prompt("اسم المشروع:");if(!title?.trim())return;const desc=prompt("الوصف وما تحتاجه:");if(!desc?.trim())return;const skills=prompt("المهارات المطلوبة:")||"";try{await addDoc(collection(db,"collab_projects"),{title:title.trim(),desc:desc.trim(),skills:skills.trim(),uid:currentUser.uid,name:currentUserData?.displayName||"مطور",contact:currentUserData?.contact||currentUser.email,createdAt:serverTimestamp(),status:"open"});toast("تم النشر");loadProjects()}catch{toast("فشل","error")}};loadProjects()}
+async function loadProjects(){const body=document.getElementById("projBody");if(!body)return;try{const snap=await getDocs(query(collection(db,"collab_projects"),orderBy("createdAt","desc"),limit(40)));if(snap.empty){body.innerHTML='<div class="empty"><div class="ico">🤝</div><p>لا مشاريع</p></div>';return}let html="";snap.forEach(d=>{const p=d.data();html+=`<div class="project-card"><h3>${esc(p.title)}</h3><div class="meta">${esc(p.name)} · ${esc(p.skills||"")}</div><p>${esc(p.desc)}</p><button class="btn btn-sm btn-primary join-proj" data-c="${esc(p.contact||"")}" data-n="${esc(p.name)}" style="margin-top:10px">طلب انضمام</button></div>`});body.innerHTML=html;body.querySelectorAll(".join-proj").forEach(b=>{b.onclick=()=>toast(`تواصل مع ${b.dataset.n}: ${b.dataset.c}`)})}catch(e){body.innerHTML=`<div class="empty"><p>${esc(e.message)}</p></div>`}}
+
+function renderCreator(main){main.innerHTML=`<div class="comm-body" style="max-height:none"><div class="creator-banner"><div><h3>صناعة تطبيق من App Creator 24</h3><p>ابنِ هيكل تطبيقك ثم ارفعه للمتجر</p></div><button class="btn btn-lg" style="background:#fff;color:#0f766e" id="startCreator">ابدأ الآن</button></div><div id="creatorForm" style="display:none"><div class="form-group"><label>اسم التطبيق</label><input id="crName"></div><div class="form-group"><label>الوصف</label><textarea id="crDesc"></textarea></div><div class="form-group"><label>المنصة</label><select id="crPlat"><option>Android</option><option>Windows</option><option>Web</option><option>متعدد</option></select></div><div class="form-group"><label>التقنية</label><input id="crTech" placeholder="Kotlin, Flutter..."></div><div class="form-group"><label>الميزات (سطر لكل ميزة)</label><textarea id="crFeatures"></textarea></div><button class="btn btn-primary btn-block" id="crGenerate">توليد الملخص</button><div id="crResult" style="display:none;margin-top:16px;padding:16px;background:var(--bg);border-radius:12px;border:1px solid var(--border)"><h3 style="margin-bottom:10px">ملخص</h3><pre id="crOut" style="white-space:pre-wrap;font-size:13px"></pre><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn btn-primary btn-sm" id="crToSubmit">إرسال للمتجر</button><button class="btn btn-outline btn-sm" id="crToChat">مشاركة بالمجتمع</button></div></div></div></div>`;
+document.getElementById("startCreator").onclick=()=>{document.getElementById("creatorForm").style.display="block"};
+document.getElementById("crGenerate").onclick=()=>{const name=document.getElementById("crName").value.trim()||"تطبيقي";const desc=document.getElementById("crDesc").value.trim()||"-";const plat=document.getElementById("crPlat").value;const tech=document.getElementById("crTech").value.trim()||"-";const feats=document.getElementById("crFeatures").value.trim().split("\\n").filter(Boolean);const out=`📱 ${name}\\nالوصف: ${desc}\\nالمنصة: ${plat}\\nالتقنية: ${tech}\\nالميزات:\\n${feats.map((f,i)=>`  ${i+1}. ${f}`).join("\\n")||"  -"}\\n\\nApp Creator 24 — YMM S APP`;document.getElementById("crResult").style.display="block";document.getElementById("crOut").textContent=out;window._crOut=out;window._crName=name;window._crDesc=desc};
+document.getElementById("crToSubmit").onclick=()=>{showPage("dev");showDevView("dev-submit");setTimeout(()=>{const n=document.getElementById("appName"),d=document.getElementById("appDesc");if(n)n.value=window._crName||"";if(d)d.value=window._crDesc||"";toast("أكمل الأيقونة والملفات")},300)};
+document.getElementById("crToChat").onclick=async()=>{if(!window._crOut)return;try{await addDoc(collection(db,"community_chats","ideas","messages"),{text:window._crOut,isCode:false,uid:currentUser.uid,name:currentUserData?.displayName||"مطور",createdAt:serverTimestamp()});toast("تمت المشاركة")}catch{toast("فشل","error")}}}
+
+function showDevView(v){document.querySelectorAll("#page-dev .dash-link").forEach(l=>l.classList.toggle("active",l.dataset.view===v));const c=document.getElementById("devContent");if(v==="dev-apps")renderDevApps(c);else if(v==="dev-submit")renderSubmit(c);else renderDevSettings(c)}
+window.showDevView=showDevView;
+document.querySelectorAll("#page-dev .dash-link").forEach(l=>l.onclick=()=>showDevView(l.dataset.view));
+
+async function renderDevApps(el){el.innerHTML='<h2>تطبيقاتي</h2><div class="empty"><div class="ico">⏳</div></div>';try{const snap=await getDocs(query(collection(db,"apps"),where("developerId","==",currentUser.uid)));const apps=[];snap.forEach(d=>apps.push({id:d.id,...d.data()}));if(!apps.length){el.innerHTML=`<h2>تطبيقاتي</h2><div class="empty"><div class="ico">📦</div><p>لا تطبيقات</p><button class="btn btn-primary" style="margin-top:12px" id="goSub">إضافة</button></div>`;document.getElementById("goSub")?.addEventListener("click",()=>showDevView("dev-submit"));return}
+el.innerHTML=`<h2>تطبيقاتي</h2><p class="sub">${apps.length}</p><div class="table-wrap"><table><thead><tr><th>الاسم</th><th>الحالة</th><th>مشاركة</th><th></th></tr></thead><tbody>${apps.map(a=>`<tr><td><strong>${esc(a.name)}</strong></td><td><span class="badge badge-${a.status||"pending"}">${a.status==="approved"?"معتمد":a.status==="rejected"?"مرفوض":"مراجعة"}</span></td><td>${a.status==="approved"?`<button class="btn btn-sm btn-outline share-a" data-id="${a.id}">نسخ الرابط</button>`:"—"}</td><td><button class="btn btn-sm btn-outline view-a" data-id="${a.id}">عرض</button></td></tr>`).join("")}</tbody></table></div>`;
+el.querySelectorAll(".view-a").forEach(b=>b.onclick=()=>openApp(b.dataset.id));el.querySelectorAll(".share-a").forEach(b=>b.onclick=()=>copyText(shareAppUrl(b.dataset.id)))}catch{el.innerHTML="<p style='color:var(--danger)'>خطأ</p>"}}
+
+function renderSubmit(el){const dn=currentUserData?.displayName||"";el.innerHTML=`<h2>إضافة تطبيق</h2><p class="sub">بعد موافقة الإدارة</p><div class="form-group"><label>اسم *</label><input id="appName"></div><div class="form-group"><label>وصف *</label><textarea id="appDesc"></textarea></div><div class="form-group"><label>أيقونة *</label><input type="file" id="appIcon" accept="image/*"></div><div class="form-group"><label>صور (حتى 10)</label>${Array.from({length:10},(_,i)=>`<div class="shot-row"><input type="file" accept="image/*" id="shotFile${i}"><input type="url" id="shotUrl${i}" placeholder="أو رابط"></div>`).join("")}</div><div class="form-row"><div class="form-group"><label>الفئة</label><select id="appCategory"><option>ألعاب</option><option>تواصل اجتماعي</option><option>أدوات</option><option>تعليمليم</option><option>ترفيه</option><option>إنتاجية</option><option>أخرى</option></select></div><div class="form-group"><label>العمر</label><select id="appAge"><option>+3</option><option>+7</option><option>+12</option><option>+16</option><option>+18</option></select></div></div><div class="form-group"><label>APK</label><input type="file" id="appApk" accept=".apk"></div><div class="form-group"><label>ويندوز</label><input type="file" id="appWindows" accept=".exe,.msi,.zip"></div><div class="form-group"><label>المنصات</label><div class="platforms"><label><input type="checkbox" value="Android" checked> Android</label><label><input type="checkbox" value="Windows"> Windows</label><label><input type="checkbox" value="iOS"> iOS</label><label><input type="checkbox" value="Web"> Web</label></div></div><div class="form-group"><label>المطور</label><input id="appDevName" value="${esc(dn)}"></div><div class="upload-progress" id="upProgress"><div class="label"><span id="upLabel">...</span><span id="upPct">0%</span></div><div class="progress-bar"><div class="fill" id="upFill"></div></div><div class="upload-log" id="upLog"></div></div><button class="btn btn-primary btn-block btn-lg" id="submitAppBtn">إرسال للمراجعة</button>`;document.getElementById("submitAppBtn").onclick=submitApp}
+
+function setProgress(show,label,pct,logLine){const box=document.getElementById("upProgress");if(!box)return;box.classList.toggle("show",!!show);if(label!==undefined)document.getElementById("upLabel").textContent=label;if(pct!==undefined){document.getElementById("upPct").textContent=pct+"%";document.getElementById("upFill").style.width=pct+"%"}if(logLine){const log=document.getElementById("upLog");log.innerHTML+=`<div>✓ ${esc(logLine)}</div>`}}
+
+async function submitApp(){if(!currentUser)return;const name=document.getElementById("appName")?.value.trim(),desc=document.getElementById("appDesc")?.value.trim(),iconFile=document.getElementById("appIcon")?.files[0];if(!name||!desc||!iconFile){toast("الاسم والوصف والأيقونة مطلوبة","error");return}const apkF=document.getElementById("appApk")?.files[0],winF=document.getElementById("appWindows")?.files[0];const btn=document.getElementById("submitAppBtn");btn.disabled=true;btn.innerHTML='<span class="loader"></span> جاري الرفع...';document.getElementById("upLog").innerHTML="";setProgress(true,"بدء...",0);
+try{const uid=currentUser.uid,ts=Date.now();const steps=[{file:iconFile,path:`apps/${uid}/${ts}_icon`,name:"الأيقونة"}];for(let i=0;i<10;i++){const f=document.getElementById("shotFile"+i)?.files[0];if(f)steps.push({file:f,path:`apps/${uid}/${ts}_shot${i}`,name:`صورة ${i+1}`})}if(apkF)steps.push({file:apkF,path:`apps/${uid}/${ts}_app.apk`,name:"APK"});if(winF)steps.push({file:winF,path:`apps/${uid}/${ts}_win_${winF.name}`,name:"ويندوز"});const urls={};let done=0;
+for(const step of steps){setProgress(true,`رفع: ${step.name}`,Math.round(done/steps.length*100));urls[step.path]=await uploadWithProgress(step.file,step.path,pct=>{setProgress(true,`رفع: ${step.name} (${pct}%)`,Math.round(done/steps.length*100+pct/steps.length))});done++;setProgress(true,`تم: ${step.name}`,Math.round(done/steps.length*100),step.name)}
+const screenshots=[];for(let i=0;i<10;i++){const f=document.getElementById("shotFile"+i)?.files[0],u=document.getElementById("shotUrl"+i)?.value.trim();if(f)screenshots.push(urls[`apps/${uid}/${ts}_shot${i}`]);else if(u)screenshots.push(u)}
+const platforms=[...document.querySelectorAll(".platforms input:checked")].map(c=>c.value);if(!platforms.length)platforms.push("Android");
+await addDoc(collection(db,"apps"),{name,description:desc,iconUrl:urls[`apps/${uid}/${ts}_icon`],screenshots,category:document.getElementById("appCategory")?.value,ageRating:document.getElementById("appAge")?.value,apkUrl:apkF?urls[`apps/${uid}/${ts}_app.apk`]:null,windowsUrl:winF?urls[`apps/${uid}/${ts}_win_${winF.name}`]:null,platforms,developerId:uid,developerName:document.getElementById("appDevName")?.value.trim()||currentUserData?.displayName||"مطور",status:"pending",warnings:[],rating:5,createdAt:serverTimestamp()});
+setProgress(true,"اكتمل!",100);toast("تم الإرسال");setTimeout(()=>showDevView("dev-apps"),600)}catch(e){toast(e.message||"فشل الرفع","error");setProgress(false)}finally{btn.disabled=false;btn.textContent="إرسال للمراجعة"}}
+
+function renderDevSettings(el){const d=currentUserData||{};el.innerHTML=`<h2>الإعدادات</h2><div class="form-group"><label>اسم الشركة</label><input id="setCompany" value="${esc(d.companyName||"")}"></div><div class="form-group"><label>عدد الأفراد</label><input type="number" id="setEmployees" value="${d.employees||1}"></div><div class="form-group"><label>الموقع</label><input id="setWebsite" value="${esc(d.website||"")}"></div><div class="form-group"><label>التواصل</label><input id="setContact" value="${esc(d.contact||"")}"></div><div class="form-group"><label>الوصف</label><textarea id="setDesc">${esc(d.companyDesc||"")}</textarea></div><button class="btn btn-primary" id="saveDevBtn">حفظ</button>`;
+document.getElementById("saveDevBtn").onclick=async()=>{const updates={companyName:document.getElementById("setCompany").value.trim(),employees:Number(document.getElementById("setEmployees").value)||1,website:document.getElementById("setWebsite").value.trim(),contact:document.getElementById("setContact").value.trim(),companyDesc:document.getElementById("setDesc").value.trim(),displayName:document.getElementById("setCompany").value.trim()};await updateDoc(doc(db,"users",currentUser.uid),updates);currentUserData={...currentUserData,...updates};toast("تم");renderNav()}}
+
+function showGuestView(v){document.querySelectorAll("#page-guest .dash-link").forEach(l=>l.classList.toggle("active",l.dataset.view===v));const c=document.getElementById("guestContent");if(v==="guest-home"){c.innerHTML=`<h2>مرحباً ${esc(currentUserData?.displayName||"")}</h2><p class="sub">تصفح المتجر</p><button class="btn btn-primary" id="goStore">المتجر</button>`;document.getElementById("goStore").onclick=()=>{showPage("home");loadHomeApps()}}else{const d=currentUserData||{};c.innerHTML=`<h2>الإعدادات</h2><div class="form-row"><div class="form-group"><label>الاسم</label><input id="gFirst" value="${esc(d.firstName||"")}"></div><div class="form-group"><label>العائلة</label><input id="gLast" value="${esc(d.lastName||"")}"></div></div><div class="form-group"><label>العمر</label><input type="number" id="gAge" value="${d.age||""}"></div><button class="btn btn-primary" id="saveG">حفظ</button>`;document.getElementById("saveG").onclick=async()=>{const first=document.getElementById("gFirst").value.trim(),last=document.getElementById("gLast").value.trim();const updates={firstName:first,lastName:last,age:Number(document.getElementById("gAge").value)||0,displayName:(first+" "+last).trim()};await updateDoc(doc(db,"users",currentUser.uid),updates);currentUserData={...currentUserData,...updates};toast("تم");renderNav()}}}
+window.showGuestView=showGuestView;
+document.querySelectorAll("#page-guest .dash-link").forEach(l=>l.onclick=()=>showGuestView(l.dataset.view));
+
+function showAdminView(v){document.querySelectorAll("#page-admin .dash-link").forEach(l=>l.classList.toggle("active",l.dataset.view===v));const c=document.getElementById("adminContent");if(v==="admin-users")renderAdminUsers(c);else renderAdminApps(c,v==="admin-pending"?"pending":"all")}
+window.showAdminView=showAdminView;
+document.querySelectorAll("#page-admin .dash-link").forEach(l=>l.onclick=()=>showAdminView(l.dataset.view));
+
+async function renderAdminApps(el,filter){el.innerHTML='<h2>التطبيقات</h2><div class="empty"><div class="ico">⏳</div></div>';try{const snap=filter==="pending"?await getDocs(query(collection(db,"apps"),where("status","==","pending"))):await getDocs(collection(db,"apps"));const apps=[];snap.forEach(d=>apps.push({id:d.id,...d.data()}));if(!apps.length){el.innerHTML=`<h2>${filter==="pending"?"المعلقة":"الكل"}</h2><div class="empty"><p>لا شيء</p></div>`;return}
+el.innerHTML=`<h2>${filter==="pending"?"المعلقة":"الكل"}</h2><p class="sub">${apps.length}</p><div class="table-wrap"><table><thead><tr><th>الاسم</th><th>المطور</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody>${apps.map(a=>`<tr><td><strong>${esc(a.name)}</strong></td><td>${esc(a.developerName||"-")}</td><td><span class="badge badge-${a.status||"pending"}">${a.status==="approved"?"معتمد":a.status==="rejected"?"مرفوض":"معلق"}</span></td><td class="actions">${a.status!=="approved"?`<button class="btn btn-sm btn-primary a-act" data-id="${a.id}" data-a="approve">موافقة</button>`:""}${a.status!=="rejected"?`<button class="btn btn-sm btn-danger a-act" data-id="${a.id}" data-a="reject">رفض</button>`:""}<button class="btn btn-sm btn-warning a-act" data-id="${a.id}" data-a="warn">إنذار</button><button class="btn btn-sm btn-outline a-act" data-id="${a.id}" data-a="delete">حذف</button><button class="btn btn-sm btn-text view-a" data-id="${a.id}">عرض</button></td></tr>`).join("")}</tbody></table></div>`;
+el.querySelectorAll(".a-act").forEach(b=>b.onclick=()=>{if(b.dataset.a==="warn")adminWarn(b.dataset.id);else adminAction(b.dataset.id,b.dataset.a)});el.querySelectorAll(".view-a").forEach(b=>b.onclick=()=>openApp(b.dataset.id))}catch{el.innerHTML="<p style='color:var(--danger)'>خطأ</p>"}}
+async function adminAction(id,act){if(!confirm("تأكيد؟"))return;try{if(act==="delete")await deleteDoc(doc(db,"apps",id));else await updateDoc(doc(db,"apps",id),{status:act==="approve"?"approved":"rejected"});toast(act==="approve"?"موافقة":act==="delete"?"حذف":"رفض");showAdminView(document.querySelector("#page-admin .dash-link.active")?.dataset.view||"admin-pending")}catch{toast("فشل","error")}}
+async function adminWarn(id){const reason=prompt("سبب الإنذار:");if(!reason?.trim())return;const snap=await getDoc(doc(db,"apps",id));const warnings=snap.data()?.warnings||[];warnings.push({reason:reason.trim(),at:new Date().toISOString(),by:currentUser?.email});await updateDoc(doc(db,"apps",id),{warnings});toast("تم");showAdminView(document.querySelector("#page-admin .dash-link.active")?.dataset.view||"admin-pending")}
+async function renderAdminUsers(el){el.innerHTML='<h2>المستخدمون</h2><div class="empty"><div class="ico">⏳</div></div>';try{const snap=await getDocs(collection(db,"users"));const users=[];snap.forEach(d=>users.push(d.data()));el.innerHTML=`<h2>المستخدمون</h2><p class="sub">${users.length}</p><div class="table-wrap"><table><thead><tr><th>الاسم</th><th>البريد</th><th>النوع</th></tr></thead><tbody>${users.map(u=>`<tr><td>${esc(u.displayName||u.companyName||"-")}</td><td>${esc(u.email||"-")}</td><td>${u.role==="developer"?"مطور":u.role==="admin"?"إدارة":"ضيف"}</td></tr>`).join("")}</tbody></table></div>`}catch{el.innerHTML="<p style='color:var(--danger)'>خطأ</p>"}}
+
+loadHomeApps();showPage("home");
+</script>
+</body>
+</html>
